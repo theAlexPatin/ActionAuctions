@@ -25,7 +25,7 @@ SECRET_KEY = 'rbq=iu2q9$#%loo@%rxcos5zubg^0c#k7e&6)ee+!%sx#_hyjt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://charitylabs-dev.us-east-1.elasticbeanstalk.com/']
 
 #STRIPE STUFF:
 STRIPE_API_KEY = "sk_test_ncZt4ALrrRcaZUrevwdUcMHj"
@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ebdb',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'charitylabs',
         'USER': 'charitylabs',
         'PASSWORD': '420Blazeit6969',
-        'HOST': 'aa2rnm46ogd2dt.cp3d5fl3vwts.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'HOST': 'charitylabs.cp3d5fl3vwts.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -127,4 +127,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static'
+STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
