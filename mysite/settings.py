@@ -25,7 +25,7 @@ SECRET_KEY = 'rbq=iu2q9$#%loo@%rxcos5zubg^0c#k7e&6)ee+!%sx#_hyjt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://charitylabs-dev.us-east-1.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['127.0.0.1','http://charitylabs-dev.us-east-1.elasticbeanstalk.com/']
 
 #STRIPE STUFF:
 STRIPE_API_KEY = "sk_test_ncZt4ALrrRcaZUrevwdUcMHj"
@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'charitylabs',
+        'NAME': 'ebdb',
         'USER': 'charitylabs',
         'PASSWORD': '420Blazeit6969',
-        'HOST': 'charitylabs.cp3d5fl3vwts.us-east-1.rds.amazonaws.com',
+        'HOST': 'aamfk5gen1ucin.cp3d5fl3vwts.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
