@@ -4,5 +4,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^(?P<auction_id>[\w\-]+)/$', views.auction)
+    url(r'^donate/', views.donate),
+    url(r'^(?P<auction_id>[\w\-]+)/$', views.auction),
+    
 ]

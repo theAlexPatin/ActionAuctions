@@ -1,1 +1,9 @@
-<h1>Welcome</h1>
+<center>
+	<h1>Welcome</h1>
+	<h3>Enter Auction:</h3>
+	<form action="" method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Enter">
+	</form>
+</center>

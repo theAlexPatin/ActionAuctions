@@ -1,2 +1,4 @@
 Django==1.11.2
+django-appconf==1.0.2
 pytz==2017.2
+six==1.10.0

@@ -1,1 +1,14 @@
-<h1>{{auction_id}}</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<center>
+	<h2>Location: {{location}}</h1>
+	<h3>{{city}}, {{state}}</h3>
+	<p> {{description}} </p>
+	<h3>Charity: {{charity}}</h3>
+	<form action="/donate/" method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Donate">
+	</form>
+	<br>
+</center>
