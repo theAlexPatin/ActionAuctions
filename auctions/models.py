@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.timezone import now
 # Create your models here.
 
 class Auction(models.Model):
@@ -12,12 +12,12 @@ class Auction(models.Model):
 	current_amount = models.IntegerField(default=0)
 	highest_bidder = models.CharField(max_length=55, default="NONE")
 	highest_bid = models.IntegerField(default=0)
-	ending_time = models.DateField()
+	ending_time = models.DateTimeField()
 
 class Bid(models.Model):
 	auction_id = models.CharField(max_length=20)
 	amount = models.IntegerField()
 	stripe_id = models.CharField(max_length=55)
 	email = models.CharField(max_length=55)
-	bidder_id = models.CharField(max_length=55)
-	time = models.DateField()
+	name = models.CharField(max_length=55)
+	time = models.DateTimeField(default=now)

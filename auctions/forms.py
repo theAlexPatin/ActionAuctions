@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.widgets import HiddenInput
+from decimal import Decimal
 
 #Donate/Spectate Button
 class ButtonForm(forms.Form):
@@ -25,7 +26,8 @@ class CreditCardForm(forms.Form):
     exp_month = forms.ChoiceField(choices=MONTH_CHOICES, label="Exp. Month", required=True)
     exp_year = forms.ChoiceField(choices=YEAR_CHOICES, label="Exp. Year", required=True)
     email = forms.CharField(max_length=40, label="Email", required=True)
-    auction_id = forms.CharField(max_length=100)
+    amount = forms.DecimalField(label="Amount", min_value=Decimal("0.01"), max_digits=20, decimal_places=2)
+    auction_id = forms.CharField(max_length=20)
 
     def __init__(self, *args, **kwargs):
         auction_id = kwargs.pop('auction_id')

@@ -5,6 +5,9 @@ from .forms import CreditCardForm
 import psycopg2 as pspg
 from .models import Auction
 from .models import Bid
+from .email_confirmation import generate_email
+import datetime
+from mysite import settings
 
 # Create your views here.
 
@@ -36,9 +39,8 @@ def auction(request, auction_id):
 def donate(request):		
 	try:
 		form = request.POST.dict()
-		if 'name' in form:
-			return render(request, 'error.html')
-			#Do credit card stuff
+		if 'amount' in form: ##If CC_form
+			return checkout(request, form)
 		else:
 			auction_id = form['auction_id']
 			cc_form = CreditCardForm(auction_id=auction_id)
@@ -47,3 +49,91 @@ def donate(request):
 			return render(request, 'donate.html', context)	
 	except:
 		return render(request, 'error.html')
+
+
+def checkout(request, form):
+	try:
+		auction_id = form['auction_id']
+		auction = Auction.objects.get(auction_id=auction_id)
+		amount = form['amount']
+		name = form['name']
+		cvc = form['cvc']
+		card_number = form['card_number']
+		exp_month = form['exp_month']
+		exp_year = form['exp_year']
+		email = form['email']
+		end_time = auction.ending_time
+		print('info extracted')
+
+		charged, charge_id = stripe_payment(
+			exp_month,
+			exp_year,
+			card_number,
+			cvc,
+			name,
+			event_price, 
+			auction.charity
+		)
+		print('paid')
+
+		if charged:
+			b = Bid(auction_id=auction_id, amount=amount*100, stripe_id=charge_id, email=email,name=name)
+			b.save()
+			print('bid saved')
+			
+			if int(amount*100) > auction.highest_bid:
+				auction.highest_bid = int(amount*100)
+				auction.highest_bidder = charge_id
+				auction.save()
+				print('highest bid updated')
+			
+			generate_email(
+				email, 
+				name.split(' ')[0], 
+				amount, 
+				auction.charity, 
+				auction.location, 
+				end_time)
+			print('email sent')
+			
+			context = {
+				'amount':form['amount'],
+				'charity':auction.charity,
+				'end_time':end_time
+			}
+			return render(request, "confirmation.html", context)
+		else:
+			return render(request, "payment-error.html")
+	except:	
+		return render(request, "payment-error.html")
+
+def stripe_payment(exp_month, exp_year, number, cvc, name, amount, charity):
+    print('got here')
+    amount = amount * 100
+    stripe.api_key = settings.STRIPE_API_KEY
+    print(settings.STRIPE_API_KEY)
+    token = stripe.Token.create(
+	    card={
+	        "number": int(number),
+	        "exp_month": int(exp_month),
+	        "exp_year": int(exp_year),
+	        "cvc": str(cvc),
+	        "name": str(name),
+	    },
+	)
+    try:
+        response = stripe.Charge.create(
+            amount=int(amount*100),
+            currency="usd",
+            description="Donation to %s"%charity,
+            card={
+                    "exp_month":int(exp_month),
+                    "exp_year":int(exp_year),
+                    "number":int(number),
+                    "cvc":int(cvc),
+                    "name":str(name)
+                })
+    except:
+
+        return False, "error"
+    return True, response
