@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 #STRIPE STUFF:
 STRIPE_API_KEY = "sk_test_ncZt4ALrrRcaZUrevwdUcMHj"
+
 # Application definition
 
 INSTALLED_APPS = [

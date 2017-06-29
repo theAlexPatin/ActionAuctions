@@ -8,6 +8,8 @@ from .models import Bid
 from .email_confirmation import generate_email
 import datetime
 from mysite import settings
+import stripe
+from django.utils.timezone import now
 
 # Create your views here.
 
@@ -71,19 +73,27 @@ def checkout(request, form):
 			card_number,
 			cvc,
 			name,
-			event_price, 
+			amount, 
 			auction.charity
 		)
 		print('paid')
 
 		if charged:
-			b = Bid(auction_id=auction_id, amount=amount*100, stripe_id=charge_id, email=email,name=name)
+			print(charge_id)
+			b = Bid(
+				auction_id=auction_id, 
+				amount=int(amount*100), 
+				stripe_id=charge_id, 
+				email=email,
+				name=name,
+				time=now())
 			b.save()
 			print('bid saved')
 			
 			if int(amount*100) > auction.highest_bid:
 				auction.highest_bid = int(amount*100)
 				auction.highest_bidder = charge_id
+				print('here')
 				auction.save()
 				print('highest bid updated')
 			
@@ -108,11 +118,11 @@ def checkout(request, form):
 		return render(request, "payment-error.html")
 
 def stripe_payment(exp_month, exp_year, number, cvc, name, amount, charity):
-    print('got here')
-    amount = amount * 100
+    amount = int(amount * 100)
+    amount = 200
     stripe.api_key = settings.STRIPE_API_KEY
-    print(settings.STRIPE_API_KEY)
-    token = stripe.Token.create(
+    print(amount)
+    ''''token = stripe.Token.create(
 	    card={
 	        "number": int(number),
 	        "exp_month": int(exp_month),
@@ -120,20 +130,24 @@ def stripe_payment(exp_month, exp_year, number, cvc, name, amount, charity):
 	        "cvc": str(cvc),
 	        "name": str(name),
 	    },
-	)
+	)'''
+    card={
+        "exp_month":int(exp_month),
+        "exp_year":int(exp_year),
+        "number":str(number),
+        "cvc":str(cvc),
+        "name":str(name)
+    }
+    print(card)
     try:
         response = stripe.Charge.create(
             amount=int(amount*100),
             currency="usd",
             description="Donation to %s"%charity,
-            card={
-                    "exp_month":int(exp_month),
-                    "exp_year":int(exp_year),
-                    "number":int(number),
-                    "cvc":int(cvc),
-                    "name":str(name)
-                })
+            card=card
+        )
+        print('payment')
     except:
 
         return False, "error"
-    return True, response
+    return True, response['id']
