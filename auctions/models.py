@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.timezone import now
 # Create your models here.
 
 class Auction(models.Model):
@@ -20,4 +19,4 @@ class Bid(models.Model):
 	stripe_id = models.CharField(max_length=55)
 	email = models.CharField(max_length=55)
 	name = models.CharField(max_length=55)
-	time = models.DateTimeField(default=now)
+	time = models.DateTimeField(auto_now=True)

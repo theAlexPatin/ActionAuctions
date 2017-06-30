@@ -10,6 +10,10 @@ import datetime
 from mysite import settings
 import stripe
 from django.utils.timezone import now
+import datetime
+from django.core.exceptions import PermissionDenied
+from django.db import Error
+
 
 # Create your views here.
 
@@ -58,6 +62,7 @@ def checkout(request, form):
 		auction_id = form['auction_id']
 		auction = Auction.objects.get(auction_id=auction_id)
 		amount = form['amount']
+		amount = 1
 		name = form['name']
 		cvc = form['cvc']
 		card_number = form['card_number']
@@ -79,21 +84,18 @@ def checkout(request, form):
 		print('paid')
 
 		if charged:
-			print(charge_id)
-			b = Bid(
-				auction_id=auction_id, 
-				amount=int(amount*100), 
-				stripe_id=charge_id, 
-				email=email,
-				name=name,
-				time=now())
+			b = Bid()
+			b.auction_id= auction_id
+			b.amount = int(amount*100)
+			b.stripe_id = str(charge_id)
+			b.email = email
+			b.name = name
 			b.save()
 			print('bid saved')
 			
 			if int(amount*100) > auction.highest_bid:
 				auction.highest_bid = int(amount*100)
 				auction.highest_bidder = charge_id
-				print('here')
 				auction.save()
 				print('highest bid updated')
 			
@@ -101,8 +103,7 @@ def checkout(request, form):
 				email, 
 				name.split(' ')[0], 
 				amount, 
-				auction.charity, 
-				auction.location, 
+				auction.charity,
 				end_time)
 			print('email sent')
 			
@@ -119,7 +120,6 @@ def checkout(request, form):
 
 def stripe_payment(exp_month, exp_year, number, cvc, name, amount, charity):
     amount = int(amount * 100)
-    amount = 200
     stripe.api_key = settings.STRIPE_API_KEY
     print(amount)
     ''''token = stripe.Token.create(
