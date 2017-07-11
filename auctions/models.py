@@ -12,6 +12,9 @@ class Auction(models.Model):
 	highest_bidder = models.CharField(max_length=55, default="NONE")
 	highest_bid = models.IntegerField(default=0)
 	ending_time = models.DateTimeField()
+	has_ended = models.BooleanField(default=False)
+	winner_url = models.CharField(default="NONE", max_length=150)
+	reimbursed = models.BooleanField(default=False)
 
 class Bid(models.Model):
 	auction_id = models.CharField(max_length=20)

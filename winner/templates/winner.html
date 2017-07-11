@@ -1,0 +1,18 @@
+<center>
+	<h1>Congrats! You won!</h1>
+	<h1>BUT...</h1>
+
+	<h2>You can still donate your earnings!</h2>
+	<form action="/winner/" method="POST">
+		{% csrf_token %}
+		{{ donate_form }}
+		<input type="submit" value="DONATE!">
+	</form>
+	<br><br>
+	<h3>...or have them transferred to your card</h3>
+	<form action="/winner/" method="POST">
+		{% csrf_token %}
+		{{ reimburse_form }}
+		<input type="submit" value="Recieve Earnings">
+	</form>
+</center>

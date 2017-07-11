@@ -8,7 +8,22 @@ USERNAME = "charity_labs@yahoo.com"
 PASSWORD = "420Blazeit6969"
 #########################
 
-_template = """
+
+_winner_template = """
+	Congratulations!
+
+	You made the largest donation, so you've won ${amount}. 
+
+	But wait!
+
+	You can still choose to donate your earnings and feel great about yourself!
+
+	Follow the link below to redeem your earnings or donate them to {charity}
+
+	{link}
+"""
+
+_confirmation_template = """
 Hey, {name}!
 
 Thank you for your generous donation to {charity}!
@@ -20,18 +35,32 @@ Donation Total: {amount}
 
 """
 
-def generate_email(to_email, name, amount, charity, end_time):
+def email_winner(to_email, amount, charity, link):
+	msg = MIMEText(_winner_template.format(
+			amount=amount,
+			charity=charity,
+			link=link
+		))
+	msg['Subject'] = "You've won the Auction!"
+	_send_mail(msg, to_email)
+
+def generate_confirmation(to_email, name, amount, charity, end_time):
 	print('here')
-	msg = MIMEText(_template.format(
+	msg = MIMEText(_confirmation_template.format(
 			name=name,
 			charity=charity,
 			end_time=end_time,
 			amount=str(amount)
 		))
 	msg['Subject'] = 'Donation to %s'%charity
+	_send_mail(msg, to_email)
+
+	
+
+
+def _send_mail(msg, to_email):
 	msg['From'] = USERNAME
 	msg['To'] = to_email
-
 	s = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
 	print('server connected')
 	s.starttls()
@@ -42,9 +71,8 @@ def generate_email(to_email, name, amount, charity, end_time):
 	print('email sent')
 
 
-
 def test():
-	generate_email('a.patin96@gmail.com', 'Alexander', 1.50, 'Against Malaria Foundation', '6/26/17 at 9:40')
+	generate_confirmation('a.patin96@gmail.com', 'Alexander', 1.50, 'Against Malaria Foundation', '6/26/17 at 9:40')
 
 if __name__ == '__main__':
 	test()
