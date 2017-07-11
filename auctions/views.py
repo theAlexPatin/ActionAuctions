@@ -5,7 +5,7 @@ from .forms import CreditCardForm
 import psycopg2 as pspg
 from .models import Auction
 from .models import Bid
-from .email_confirmation import generate_email
+from .emailer import generate_confirmation
 import datetime
 from mysite import settings
 import stripe
@@ -28,6 +28,17 @@ def index(request):
 def auction(request, auction_id):
 	try:
 		auction = Auction.objects.get(auction_id=auction_id)
+		if auction.has_ended:
+			context = {
+				'location':auction.location,
+				'city':auction.city,
+				'state':auction.state,
+				'description':auction.description,
+				'charity':auction.charity,
+				'amount':auction.current_amount,
+				'highest_bid':auction.highest_bid
+			}
+			return render(request,'auction-ended.html',context)
 		form = ButtonForm(auction_id=auction_id)
 		context = {
 			'auction_id':auction_id, 
@@ -61,6 +72,9 @@ def checkout(request, form):
 	try:
 		auction_id = form['auction_id']
 		auction = Auction.objects.get(auction_id=auction_id)
+		if auction.has_ended:
+			context = {'charity':auction.charity}
+			return render(request, 'took-too-long.html', charity)
 		amount = form['amount']
 		amount = 1
 		name = form['name']
@@ -93,13 +107,14 @@ def checkout(request, form):
 			b.save()
 			print('bid saved')
 			
+			auction.current_amount += int(amount*100)
 			if int(amount*100) > auction.highest_bid:
 				auction.highest_bid = int(amount*100)
 				auction.highest_bidder = charge_id
-				auction.save()
 				print('highest bid updated')
-			
-			generate_email(
+			auction.save()
+			print('current amount incremented')
+			generate_confirmation(
 				email, 
 				name.split(' ')[0], 
 				amount, 
