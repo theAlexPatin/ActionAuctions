@@ -6,6 +6,10 @@
 - [Python 3](https://www.python.org/downloads/)
 - [Elastic Beanstalk CLI](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
 
+### Cloning
+
+In the desired directory run `git clone https://github.com/theAlexPatin/CharityLabs.git`
+
 ### Setup
 
 Install virtualenv if you don't have it: `$ pip install virtualenv`
