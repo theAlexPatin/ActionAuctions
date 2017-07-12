@@ -1,6 +1,6 @@
 # CharityLabs (unnamed) Web App
 
-##### A web app built with Django on AWS
+#### A web app built with Django on AWS
 
 ### Requirements
 - [Python 3](https://www.python.org/downloads/)
@@ -13,6 +13,7 @@ In the desired directory run `git clone https://github.com/theAlexPatin/CharityL
 ### Setup
 
 Install virtualenv if you don't have it: `$ pip install virtualenv`
+
 Then from the root of the project:
 ```
 $ virtualenv venv
