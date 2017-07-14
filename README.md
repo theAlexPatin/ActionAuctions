@@ -2,15 +2,15 @@
 
 #### A web app built with Django on AWS
 
-### Requirements
+## Requirements
 - [Python 3](https://www.python.org/downloads/)
 - [Elastic Beanstalk CLI](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html)
 
-### Cloning
+## Cloning
 
 In the desired directory run `git clone https://github.com/theAlexPatin/CharityLabs.git`
 
-### Setup
+## Setup
 
 Install virtualenv if you don't have it: `$ pip install virtualenv`
 
@@ -22,17 +22,24 @@ $ pip install -r requirements.txt
 $ deactivate
 ```
 
-### Running
+## Running
 From root of project:
 ```
 $ source venv/bin/activate
 $ python3 application.py
 ```
 
-### Deploying Changes
+## Deploying Changes
 ```
 $ eb deploy
 ```
+
+## Technologies Used:
+- Django
+- AWS ElasticBeanstalk
+- AWS RDS (PostgreSQL)
+- Stripe API
+- Celery (automated task management)
 
 ### Resources:
 - [Django tutorial](http://www.tutorialspoint.com/django/)
