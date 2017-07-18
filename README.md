@@ -29,6 +29,12 @@ $ source venv/bin/activate
 $ python3 manage.py runserver
 ```
 
+## Making Model Schema Changes:
+```
+$ python3 manage.py makemigrations
+$ python3 manage.py migrate
+```
+
 ## Deploying Changes
 ```
 $ eb deploy
