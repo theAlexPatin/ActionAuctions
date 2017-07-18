@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #AUCTIONS APP
     'auctions',
+    #WINNER APP
     'winner'
 ]
 
@@ -78,10 +79,6 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-
-TEMPLATE_DIRS = (
-    PROJECT_PATH + '/templates/',
-)
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

@@ -26,7 +26,7 @@ $ deactivate
 From root of project:
 ```
 $ source venv/bin/activate
-$ python3 application.py
+$ python3 manage.py runserver
 ```
 
 ## Deploying Changes

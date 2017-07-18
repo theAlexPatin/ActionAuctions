@@ -18,7 +18,6 @@ class BidAdmin(admin.ModelAdmin):
 	list_display = ['auction_id',
 					'stripe_id',
 					'email',
-					'name',
 					'amount',
 					'time']
 
