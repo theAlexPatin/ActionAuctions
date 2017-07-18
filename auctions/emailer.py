@@ -24,7 +24,7 @@ _winner_template = """
 """
 
 _confirmation_template = """
-Hey, {name}!
+Hey, friend!
 
 Thank you for your generous donation to {charity}!
 
@@ -44,10 +44,9 @@ def email_winner(to_email, amount, charity, link):
 	msg['Subject'] = "You've won the Auction!"
 	_send_mail(msg, to_email)
 
-def generate_confirmation(to_email, name, amount, charity, end_time):
+def generate_confirmation(to_email, amount, charity, end_time):
 	print('here')
 	msg = MIMEText(_confirmation_template.format(
-			name=name,
 			charity=charity,
 			end_time=end_time,
 			amount=str(amount)

@@ -60,9 +60,8 @@ def donate(request):
 			return checkout(request, form)
 		else:
 			auction_id = form['auction_id']
-			cc_form = CreditCardForm(auction_id=auction_id)
 			auction = Auction.objects.get(auction_id=auction_id)
-			context = {"charity":auction.charity,"form":cc_form}
+			context = {"charity":auction.charity,"auction_id":auction_id, "stripe_key":settings.STRIPE_PUBLIC_KEY}
 			return render(request, 'donate.html', context)	
 	except:
 		return render(request, 'error.html')
@@ -78,10 +77,7 @@ def checkout(request, form):
 		amount = form['amount']
 		amount = 1
 		name = form['name']
-		cvc = form['cvc']
-		card_number = form['card_number']
-		exp_month = form['exp_month']
-		exp_year = form['exp_year']
+		card = form['stripe']
 		email = form['email']
 		end_time = auction.ending_time
 		print('info extracted')
@@ -103,7 +99,6 @@ def checkout(request, form):
 			b.amount = int(amount*100)
 			b.stripe_id = str(charge_id)
 			b.email = email
-			b.name = name
 			b.save()
 			print('bid saved')
 			
@@ -116,7 +111,6 @@ def checkout(request, form):
 			print('current amount incremented')
 			generate_confirmation(
 				email, 
-				name.split(' ')[0], 
 				amount, 
 				auction.charity,
 				end_time)

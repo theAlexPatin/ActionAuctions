@@ -1,15 +1,38 @@
+<script src="https://js.stripe.com/v3/"></script>
+
 <center>
     <h2>Donation to {{ charity }}</h2>
-    
-    
-    <div>
-        <h3>Confirm Donation</h3>
-        <div>
-            <form action="" method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Submit"/>
-            </form>
-        </div>
-    </div>
+    <span id="auction_id" style="visibility: hidden;">{{auction_id}}</span>
+
+	<div>
+		<input class="form-control"
+		       type="number"
+		       id="custom-donation-amount"
+		       placeholder="10.00"
+		       min="0.50"
+		       step="0.50"/>
+		 <script src="https://checkout.stripe.com/checkout.js"></script>
+		<button id="customButton">Donate</button>
+		<script>
+		  var handler = StripeCheckout.configure({
+		    key: '{{stripe_key}}',
+		    token: function(token) {
+		    	console.log(token)
+		      // Use the token to create the charge with a server-side script.
+		      // You can access the token ID with `token.id`
+		    }
+		  });
+
+		  document.getElementById('customButton').addEventListener('click', function(e) {
+		    // This line is the only real modification...
+		    var amount = parseFloat(document.getElementById("custom-donation-amount").innerHTML) * 100;
+		    handler.open({
+		      name: 'Demo Site',
+		      description: document.getElementById('auction_id').innerHTML,
+		      amount: amount
+		    });
+		    e.preventDefault();
+		  });
+		</script>
+	</div>
 </center>

@@ -21,5 +21,4 @@ class Bid(models.Model):
 	amount = models.IntegerField()
 	stripe_id = models.CharField(max_length=55)
 	email = models.CharField(max_length=55)
-	name = models.CharField(max_length=55)
 	time = models.DateTimeField(auto_now=True)
