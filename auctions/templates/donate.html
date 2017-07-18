@@ -17,6 +17,12 @@
 		    key: '{{stripe_key}}',
 		    token: function(token) {
 		    	console.log(token)
+		    	var xhr = new XMLHttpRequest();
+			    var url = "/";
+			    xhr.open('POST', url, true);
+			    xhr.setRequestHeader("Content-type", "application/json");
+			    var data = JSON.stringify(token);
+			    xhr.send(data);
 		      // Use the token to create the charge with a server-side script.
 		      // You can access the token ID with `token.id`
 		    }
