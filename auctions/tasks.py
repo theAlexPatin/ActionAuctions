@@ -1,19 +1,18 @@
 from __future__ import absolute_import, unicode_literals
 from django.shortcuts import render, redirect
-from celery import shared_task
+from django_future import job_as_parameter
 from .models import Auction
 from .models import Bid
 from .emailer import email_winner
 from uuid import uuid4
 from math import floor
 
-@shared_task
-def end_auction(auction_id):
+@job_as_parameter
+def end_auction(auction):
 	host = 'http://localhost:8000'
 	winner_id = str(uuid4()).replace('-','')[:10]
 	url = '{}/winner/{}'.format(host, winner_id)
 	print(url)
-	auction = Auction.objects.get(auction_id=auction_id)
 	amount = floor(auction.current_amount / 2)
 	bid = Bid.objects.get(stripe_id=auction.highest_bidder)
 	email_winner(bid.email, amount, auction.charity, url)

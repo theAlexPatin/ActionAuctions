@@ -6,6 +6,8 @@ certifi==2017.4.17
 chardet==3.0.4
 Django==1.11.2
 django-appconf==1.0.2
+django-future==0.2.3
+django-picklefield==1.0.0
 idna==2.5
 kombu==4.0.2
 psycopg2==2.7.1
