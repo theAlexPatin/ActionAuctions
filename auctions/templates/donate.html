@@ -12,25 +12,28 @@
 		       min="0.50"/>
 		 <script src="https://checkout.stripe.com/checkout.js"></script>
 		<button id="customButton">Donate</button>
+		
+		<!--Janky way of getting around CSRF token issues (passes back stripe id)-->
+		<form id="submit" action="/donate/" method="POST">
+			{% csrf_token %}
+			{{ form }}
+		</form>
+		
 		<script>
 		  var handler = StripeCheckout.configure({
 		    key: '{{stripe_key}}',
 		    token: function(token) {
-		    	console.log(token)
-		    	var xhr = new XMLHttpRequest();
-			    var url = "/";
-			    xhr.open('POST', url, true);
-			    xhr.setRequestHeader("Content-type", "application/json");
-			    var data = JSON.stringify(token);
-			    xhr.send(data);
-		      // Use the token to create the charge with a server-side script.
-		      // You can access the token ID with `token.id`
+		    	document.getElementById("id_stripe_id").value = token.id;
+		    	document.getElementById("id_email").value = token.email;
+		    	document.getElementById("submit").submit();
 		    }
 		  });
 
 		  document.getElementById('customButton').addEventListener('click', function(e) {
 		    // This line is the only real modification...
-		    var amount = parseFloat(document.getElementById("custom-donation-amount").innerHTML) * 100;
+		    var amount = parseFloat(document.getElementById("custom-donation-amount").value) * 100;
+		    console.log(amount);
+		    document.getElementById("id_amount").value = amount;
 		    handler.open({
 		      name: 'Demo Site',
 		      description: document.getElementById('auction_id').innerHTML,

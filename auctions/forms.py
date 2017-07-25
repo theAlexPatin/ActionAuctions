@@ -6,31 +6,30 @@ from decimal import Decimal
 class ButtonForm(forms.Form):
 	auction_id = forms.CharField(max_length=20, required=True)
 	def __init__(self, *args, **kwargs):
-		auction_id = kwargs.pop('auction_id')
+		button_id = kwargs.pop('auction_id')
 		super(ButtonForm, self).__init__(*args, **kwargs)
 		self.fields['auction_id'].widget = HiddenInput()
-		self.fields['auction_id'].initial = auction_id
+		self.fields['auction_id'].initial = button_id
 
+class DonateForm(forms.Form):
+	auction_id = forms.CharField(max_length=20, required=True)
+	stripe_id = forms.CharField(max_length=30, required=True)
+	amount = forms.IntegerField()
+	email = forms.CharField(max_length=150, required=True)
+	def __init__(self, *args, **kwargs):
+		auction_id = kwargs.pop('auction_id')
+		stripe_id = kwargs.pop('stripe_id')
+		amount = kwargs.pop('amount')
+		email = kwargs.pop('email')
+		super(DonateForm, self).__init__(*args, **kwargs)
+		self.fields['auction_id'].widget = HiddenInput()
+		self.fields['auction_id'].initial = auction_id
+		self.fields['stripe_id'].initial = stripe_id
+		self.fields['stripe_id'].widget = HiddenInput()
+		self.fields['amount'].initial = amount
+		self.fields['amount'].widget = HiddenInput()
+		self.fields['email'].initial = email
+		self.fields['email'].widget = HiddenInput()
 #Search form for Auctions
 class AuctionForm(forms.Form):
 	auction_id = forms.CharField(max_length=20, required=True, label="Auction Key")
-
-
-class CreditCardForm(forms.Form):
-    name = forms.CharField(max_length=40, label="Full Name", required=True)
-    card_number = forms.IntegerField(label="Card Number", required=True)
-    cvc = forms.IntegerField(label="CVC", required=True)
-    YEAR_CHOICES = (('17', '17'),('18', '18'),('19','19'),('20','20'),('21','21'),('22','22'))
-    MONTH_CHOICES = (('01','01'),('02','02'),('03','03'),('04','04'),('05','05'),('06','06'),('07','07'),
-                     ('08','08'),('09','09'),('10','10'),('11','11'),('12','12'))
-    exp_month = forms.ChoiceField(choices=MONTH_CHOICES, label="Exp. Month", required=True)
-    exp_year = forms.ChoiceField(choices=YEAR_CHOICES, label="Exp. Year", required=True)
-    email = forms.CharField(max_length=40, label="Email", required=True)
-    amount = forms.DecimalField(label="Amount", min_value=Decimal("0.50"), decimal_places=2)
-    auction_id = forms.CharField(max_length=20)
-
-    def __init__(self, *args, **kwargs):
-        auction_id = kwargs.pop('auction_id')
-        super(CreditCardForm, self).__init__(*args, **kwargs)
-        self.fields['auction_id'].initial = auction_id
-        self.fields['auction_id'].widget = HiddenInput()

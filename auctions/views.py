@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import ButtonForm
 from .forms import AuctionForm
-from .forms import CreditCardForm
+from .forms import DonateForm
 import psycopg2 as pspg
 from .models import Auction
 from .models import Bid
@@ -13,6 +13,7 @@ from django.utils.timezone import now
 import datetime
 from django.core.exceptions import PermissionDenied
 from django.db import Error
+from decimal import Decimal
 
 
 # Create your views here.
@@ -41,7 +42,6 @@ def auction(request, auction_id):
 			return render(request,'auction-ended.html',context)
 		form = ButtonForm(auction_id=auction_id)
 		context = {
-			'auction_id':auction_id, 
 			'location':auction.location,
 			'city':auction.city,
 			'state':auction.state,
@@ -56,12 +56,19 @@ def auction(request, auction_id):
 def donate(request):		
 	try:
 		form = request.POST.dict()
-		if 'amount' in form: ##If CC_form
+		if 'stripe_id' in form: ##If CC_form
 			return checkout(request, form)
 		else:
 			auction_id = form['auction_id']
 			auction = Auction.objects.get(auction_id=auction_id)
-			context = {"charity":auction.charity,"auction_id":auction_id, "stripe_key":settings.STRIPE_PUBLIC_KEY}
+			form = DonateForm(auction_id=auction_id, stripe_id="", amount=Decimal("0.50"), email='')
+			print('here')
+			context = {
+				"charity":auction.charity,
+				"auction_id":auction_id,
+				"stripe_key":settings.STRIPE_PUBLIC_KEY,
+				"form":form
+			}
 			return render(request, 'donate.html', context)	
 	except:
 		return render(request, 'error.html')
@@ -69,57 +76,47 @@ def donate(request):
 
 def checkout(request, form):
 	try:
-		auction_id = form['auction_id']
-		auction = Auction.objects.get(auction_id=auction_id)
+		print(form)
+		auction = Auction.objects.get(auction_id=form['auction_id'])
 		if auction.has_ended:
 			context = {'charity':auction.charity}
 			return render(request, 'took-too-long.html', charity)
 		amount = form['amount']
-		amount = 1
-		name = form['name']
-		card = form['stripe']
 		email = form['email']
-		end_time = auction.ending_time
-		print('info extracted')
-
-		charged, charge_id = stripe_payment(
-			exp_month,
-			exp_year,
-			card_number,
-			cvc,
-			name,
-			amount, 
-			auction.charity
-		)
+		token = form['stripe_id']
+		charged, charge_id = stripe_payment(amount, auction.charity, token)
 		print('paid')
+		print(charged, charge_id)
 
 		if charged:
 			b = Bid()
-			b.auction_id= auction_id
-			b.amount = int(amount*100)
+			print('bid created')
+			b.auction_id= auction.auction_id
+			b.amount = int(amount)
 			b.stripe_id = str(charge_id)
 			b.email = email
+			print('bid set')
 			b.save()
 			print('bid saved')
 			
-			auction.current_amount += int(amount*100)
-			if int(amount*100) > auction.highest_bid:
-				auction.highest_bid = int(amount*100)
+			auction.current_amount += int(amount)
+			if int(amount) > auction.highest_bid:
+				auction.highest_bid = int(amount)
 				auction.highest_bidder = charge_id
 				print('highest bid updated')
 			auction.save()
 			print('current amount incremented')
 			generate_confirmation(
 				email, 
-				amount, 
+				Decimal(amount)/Decimal(100), 
 				auction.charity,
-				end_time)
+				auction.ending_time)
 			print('email sent')
 			
 			context = {
-				'amount':form['amount'],
+				'amount':Decimal(amount)/Decimal(100),
 				'charity':auction.charity,
-				'end_time':end_time
+				'end_time':auction.ending_time
 			}
 			return render(request, "confirmation.html", context)
 		else:
@@ -127,35 +124,16 @@ def checkout(request, form):
 	except:	
 		return render(request, "payment-error.html")
 
-def stripe_payment(exp_month, exp_year, number, cvc, name, amount, charity):
-    amount = int(amount * 100)
+def stripe_payment(amount, charity, token):
     stripe.api_key = settings.STRIPE_API_KEY
-    print(amount)
-    ''''token = stripe.Token.create(
-	    card={
-	        "number": int(number),
-	        "exp_month": int(exp_month),
-	        "exp_year": int(exp_year),
-	        "cvc": str(cvc),
-	        "name": str(name),
-	    },
-	)'''
-    card={
-        "exp_month":int(exp_month),
-        "exp_year":int(exp_year),
-        "number":str(number),
-        "cvc":str(cvc),
-        "name":str(name)
-    }
-    print(card)
     try:
         response = stripe.Charge.create(
-            amount=int(amount*100),
+            amount=int(amount),
             currency="usd",
             description="Donation to %s"%charity,
-            card=card
+            source=token
         )
-        print('payment')
+        print('payment made')
     except:
 
         return False, "error"
