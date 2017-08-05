@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+#ElasticBeanstalk
+.elasticbeanstalk
+.ebextensions
+
 # Distribution / packaging
 .Python
 build/
