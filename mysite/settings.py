@@ -25,7 +25,12 @@ SECRET_KEY = 'rbq=iu2q9$#%loo@%rxcos5zubg^0c#k7e&6)ee+!%sx#_hyjt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+	'127.0.0.1', 
+	'localhost',
+	'ActionAuctions-dev.us-east-1.elasticbeanstalk.com',
+	'actionauctions-dev.us-east-1.elasticbeanstalk.com'
+]
 
 #STRIPE STUFF:
 STRIPE_API_KEY = "sk_test_ncZt4ALrrRcaZUrevwdUcMHj"
