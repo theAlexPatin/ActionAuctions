@@ -28,8 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = [
 	'127.0.0.1', 
 	'localhost',
-	'ActionAuctions-dev.us-east-1.elasticbeanstalk.com',
-	'actionauctions-dev.us-east-1.elasticbeanstalk.com'
+	'actionauctions-dev.us-east-1.elasticbeanstalk.com',
+	'http://actionauctions-dev.us-east-1.elasticbeanstalk.com',
+	'http://actionauctions.org',
+	'actionauctions.org'
 ]
 
 #STRIPE STUFF:
