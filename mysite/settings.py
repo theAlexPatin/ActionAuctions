@@ -86,10 +86,10 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'charitylabs',
-        'USER': 'charitylabs',
-        'PASSWORD': '420Blazeit6969',
-        'HOST': 'charitylabs.cp3d5fl3vwts.us-east-1.rds.amazonaws.com',
+        'NAME': 'actionauctionsdb',
+        'USER': 'actionauctions',
+        'PASSWORD': 'FuckPoverty',
+        'HOST': 'actionauctionsdb.cwxr8k9i8jq9.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

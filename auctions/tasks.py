@@ -1,13 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 from django.shortcuts import render, redirect
-from django_future import job_as_parameter
 from .models import Auction
 from .models import Bid
 from .emailer import email_winner
 from uuid import uuid4
 from math import floor
 
-@job_as_parameter
 def end_auction(auction):
 	host = 'http://localhost:8000'
 	winner_id = str(uuid4()).replace('-','')[:10]
