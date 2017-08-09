@@ -1,5 +1,7 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
 <center>
-	<h1>Welcome</h1>
+	<h1 class="title">Welcome</h1>
 	<h3>Enter Auction:</h3>
 	<form action="" method="POST">
 		{% csrf_token %}
