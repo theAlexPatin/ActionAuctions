@@ -12,7 +12,7 @@ PASSWORD = "420Blazeit6969"
 _winner_template = """
 	Congratulations!
 
-	You made the largest donation, so you've won ${amount}. 
+	You made the largest donation, so you've won ${amount}.
 
 	But wait!
 
@@ -54,7 +54,7 @@ def generate_confirmation(to_email, amount, charity, end_time):
 	msg['Subject'] = 'Donation to %s'%charity
 	_send_mail(msg, to_email)
 
-	
+
 
 
 def _send_mail(msg, to_email):

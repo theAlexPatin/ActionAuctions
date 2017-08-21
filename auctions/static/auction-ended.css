@@ -1,0 +1,118 @@
+body {
+	background-color: #1F2831;
+	position:fixed;
+}
+
+.title {
+	color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+	border-bottom: 1px solid;
+	width: 10em;
+	letter-spacing: .15em;
+	padding-top: 30px;
+}
+
+.triangle1{
+	width: 0;
+	/*height: 0;*/
+	top: -80px;
+	right: 145px;
+	border-style: solid;
+	border-width: 100px 50px 0 50px;
+	border-color: #8aa0b8 transparent transparent transparent;
+	position: relative;
+	z-index: -1;
+}
+
+.triangle2 {
+	width: 0;
+	/*height: 0;*/
+	top: -150px;
+	left: 130px;
+	border-style: solid;
+	border-width: 50px 0 50px 100px;
+	border-color: transparent transparent transparent #f59d3f;
+	position: relative;
+	z-index: -1;
+}
+
+.location {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+	font-size: 35px;
+	/*width: 7.5em;*/
+	/*overflow: hidden;*/
+	/*letter-spacing: .15em;*/
+	text-align: center;
+	/*white-space: nowrap;*/
+	margin: 0 auto;
+}
+
+.cityState {
+  color: #8aa0b8;
+	letter-spacing: .10em;
+	font-family: 'Raleway', sans-serif;
+	margin: 0 auto;
+}
+
+/*.description {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0 auto;
+}*/
+
+/*.charity {
+	color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+	font-size: 30px;
+	text-align: center;
+	margin: 0 auto;
+	text-transform: uppercase;
+}*/
+
+.greeting {
+	color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+	font-size: 35px;
+	padding-top: 25px;
+	/*width: 7.5em;*/
+	/*overflow: hidden;*/
+	/*letter-spacing: .15em;*/
+	text-align: center;
+	/*white-space: nowrap;*/
+	margin: 0 auto;
+}
+
+.bid {
+	color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+	font-size: 45px;
+	font-weight: bold;
+	padding-top: 10px;
+	/*width: 7.5em;*/
+	/*overflow: hidden;*/
+	/*letter-spacing: .15em;*/
+	text-align: center;
+	text-transform: uppercase;
+	/*white-space: nowrap;*/
+	/*margin: 0 auto;*/
+}
+
+.fixed-nav-bar-bottom {
+	/*top: 0;*/
+	/*left: 0;*/
+	bottom: 0;
+	height: 10%;
+	width: 100%;
+	z-index: -1;
+  position: fixed;
+  background-color: #39678E;
+}
+
+.copyright {
+	color: #FFFFFF;
+	font-size: 10px;
+	font-family: 'Raleway', sans-serif;
+}

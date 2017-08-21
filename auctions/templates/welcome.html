@@ -1,11 +1,38 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'style.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'welcome.css' %}">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-indigo.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100" >
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<title>Action Auctions</title>
+<body>
 <center>
-	<h1 class="title">Welcome</h1>
-	<h3>Enter Auction:</h3>
+
+	<!-- <div class="items"> -->
+		<div class="description">
+			<h4 class="about">Fight against malaria foundation</h4>
+		</div>
+		<h1 class="title">Action Auctions</h1>
+		<div class="triangle1"></div>
+		<div class="triangle2"></div>
+	<!-- </div> -->
+
+	<h2 class="welcome">Welcome</h2>
+	<h3 class="enter_auction">Enter Auction</h3>
 	<form action="" method="POST">
 		{% csrf_token %}
 		{{ form }}
-		<input type="submit" value="Enter">
+		<button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">➜</button>
 	</form>
+
+	<nav class="fixed-nav-bar-bottom">
+		<h3 class="copyright">Copyright 2017 ©</h3>
+	</nav>
+
 </center>
+</body>
+
+<!-- <input type="submit" value="➜" button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"> -->
+
+<!-- We protect people from malaria. We fund nets and ensure they are distributed and used. We show you where the nets go. We monitor and report their use and impact. -->
