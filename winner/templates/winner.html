@@ -1,19 +1,38 @@
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'winner.css' %}">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.yellow-lime.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100" >
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
+<title="Action Auctions"></title>
+<body>
 <center>
-	<h1>Congrats! You won!</h1>
-	<h1>BUT...</h1>
+	<h1 class="title">Action Auctions</h1>
+	<div class="triangle1"></div>
+	<div class="triangle2"></div>
+	<h1 class="congratulations">Congratulations, You won!</h1>
+	<h1 class="but">but...</h1>
 
-	<h2>You can still donate your earnings!</h2>
+	<h2 class="donateEarnings">You can still donate your earnings!</h2>
 	<form action="/winner/" method="POST">
 		{% csrf_token %}
 		{{ donate_form }}
-		<input type="submit" value="DONATE!">
+		<!-- <input type="submit" value="DONATE!"> -->
+		<button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Donate</button>
 	</form>
 	<br><br>
-	<h3>...or have them transferred to your card</h3>
+	<h3 class="transfer">...or have them transferred to your card.</h3>
 	<form action="/winner/" method="POST">
 		{% csrf_token %}
 		{{ reimburse_form }}
-		<input type="submit" value="Recieve Earnings">
+		<!-- <input type="submit" value="Receive Earnings"> -->
+		<button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Receive Earnings</button>
 	</form>
+
+	<nav class="fixed-nav-bar-bottom">
+		<h3 class="copyright">Copyright 2017 ©</h3>
+	</nav>
 </center>
+</body>

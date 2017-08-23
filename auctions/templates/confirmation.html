@@ -1,5 +1,21 @@
+{% load static %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'confirmation.css' %}">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.yellow-lime.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100" >
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<title>Action Auctions</title>
+<body>
 <center>
-	<h2>Thank you for your generous donation of ${{amount}} to {{charity}}!</h2>
-	<h3>You should be recieving an email confirmation of your donation</h3>
-	<h3>Be on the lookout for another email to see if you've won!</h3>
+	<h1 class="title">Action Auctions</h1>
+	<div class="triangle1"></div>
+	<div class="triangle2"></div>
+	<h2 class="thankYou">Thank you for your generous donation of ${{amount}} to {{charity}}!</h2>
+	<h3 class="confirmation">You should be receiving an email confirmation of your donation.</h3>
+	<h3 class="won">Be on the lookout for another email to see if you've won!</h3>
+	<nav class="fixed-nav-bar-bottom">
+		<h3 class="copyright">Copyright 2017 ©</h3>
+	</nav>
 </center>
+</body>
