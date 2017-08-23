@@ -1,4 +1,4 @@
-<!-- {% load static %}
+{% load static %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{% static 'auction.css' %}">
 <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.yellow-lime.min.css"/>
@@ -14,41 +14,16 @@
 	<h2 class="location">Location: {{location}}</h2>
 	<h3 class="city">{{city}}, {{state}}</h3>
 	<p class="description">{{description}}</p>
-	<!-- <h1 class="charity" >Charity: {{charity}}</h1> -->
-	<!-- <form action="/donate/" method="POST">
+	<!-- <h1 class="charity" >Charity: {{charity}}</h1>  -->
+	<form action="/donate/" method="POST">
 		{% csrf_token %}
 		{{ form }}
 		<!-- <input type="submit" value="Donate"> -->
-		<!-- <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Donate</button>
+		<button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Donate</button>
 	</form>
 	<nav class="fixed-nav-bar-bottom">
 		<h3 class="copyright">Copyright 2017 ©</h3>
 	</nav>
 	<br>
-</center>
-</body>  -->
-
-{% load static %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="auction_ended.css">
-<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.yellow-lime.min.css"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100" >
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-<script src="https://js.stripe.com/v3/"></script>
-
-<body>
-<center>
-	<h1 class="title">Action Auctions</h1>
-	<div class="triangle1"></div>
-	<div class="triangle2"></div>
-	<h2 class="location">Location: Aaron's Basement</h1>
-	<h3 class="cityState">New York, NY</h3>
-	<!-- <p class="description"> We protect people from malaria. We fund nets and ensure they are distributed and used. We show you where the nets go. We monitor and report their use and impact.</p> -->
-	<!-- <h3 class="charity">DONATION TO FIGHT AGAINST MALARIA FOUNDATION</h3> -->
-	<h3 class="greeting">Nice everyone! You raised $100 to fight against malaria </h3>
-	<h3 class="bid">The highest bid was: $100</h3>
-	<nav class="fixed-nav-bar-bottom">
-		<h3 class="copyright">Copyright 2017 ©</h3>
-	</nav>
 </center>
 </body>

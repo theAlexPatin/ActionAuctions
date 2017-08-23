@@ -42,30 +42,44 @@ center {
 	z-index: -1;
 }
 
-.donation {
+.congratulations {
   color: #FFFFFF;
 	font-family: 'Raleway', sans-serif;
-	font-size: 30px;
-	/*width: 7.5em;*/
-	/*overflow: hidden;*/
-	/*letter-spacing: .15em;*/
-	text-align: center;
-	/*white-space: nowrap;*/
-	margin: 0 auto;
+	font-weight: bold;
+	font-size: 35px;
+	letter-spacing: .15em;
 	text-transform: uppercase;
+	margin-top: -70px;
 }
 
-.form-control {
-		height: 30px;
-		padding-left: 10px;
-		margin: 0 auto;
-		background-color: #1F2831;
-		color: #FFFFFF;
-		font-family: 'Raleway', sans-serif;
+.but {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+	margin-top: auto;
 }
 
-#googleButton {
+.form {
+	height: 30px;
 	padding-left: 10px;
+	margin: auto;
+	background-color: #1F2831;
+	color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+}
+
+.donateEarnings {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+	margin-top: auto;
+}
+
+.transfer {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+	margin-top: -30px;
 }
 
 .copyright {

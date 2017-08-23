@@ -42,30 +42,31 @@ center {
 	z-index: -1;
 }
 
-.donation {
+.thankYou {
   color: #FFFFFF;
 	font-family: 'Raleway', sans-serif;
-	font-size: 30px;
-	/*width: 7.5em;*/
-	/*overflow: hidden;*/
-	/*letter-spacing: .15em;*/
-	text-align: center;
-	/*white-space: nowrap;*/
+  font-size: 30px;
+	/*padding-top: 40px;*/
+	padding-bottom: 20px;
 	margin: 0 auto;
-	text-transform: uppercase;
 }
 
-.form-control {
-		height: 30px;
-		padding-left: 10px;
-		margin: 0 auto;
-		background-color: #1F2831;
-		color: #FFFFFF;
-		font-family: 'Raleway', sans-serif;
+.confirmation {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+	/*padding-top: 40px;*/
+	padding-bottom: 20px;
+	margin: 0 auto;
 }
 
-#googleButton {
-	padding-left: 10px;
+.won {
+  color: #FFFFFF;
+	font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+	/*padding-top: 40px;*/
+	padding-bottom: 20px;
+	margin: 0 auto;
 }
 
 .copyright {
