@@ -3,12 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+	res.render('index');
 });
 
 router.post('/', function(req, res){
 	var auction_id = req.body.auction_id;
-	res.redirect('auction/abcdef')
+	res.redirect('auction/'+auction_id);
 });
 
 module.exports = router;

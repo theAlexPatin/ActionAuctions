@@ -12,11 +12,15 @@ AWS.config.update({
     endpoint: "https://dynamodb.us-east-1.amazonaws.com"
 });
 var ddb = new AWS.DynamoDB.DocumentClient();
+var STRIPE_API_KEY = "sk_test_5touzY5sFtfwT0lBuwbvD4l6"
+var STRIPE_PUBLIC_KEY = "pk_test_08b8DgWK3wRVmfdrhCtg3mVa"
 exports.ddb = ddb;
-
+exports.STRIPE_API_KEY = STRIPE_API_KEY;
+exports.STRIPE_PUBLIC_KEY = STRIPE_PUBLIC_KEY;
 /*Route Imports*/
 var index = require('./routes/index');
 var auctions = require('./routes/auctions');
+var donate = require('./routes/donate');
 
 var app = express();
 
@@ -34,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/auction/', auctions);
+app.use('/donate/', donate);
 //app.use('/admin/', admin);
 //app.use('/users', users);
 
