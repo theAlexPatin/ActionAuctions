@@ -1,11 +1,22 @@
+/*External imports*/
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var AWS = require('aws-sdk');
+/*Connect to DynamoDB*/
+AWS.config.update({
+    region: "us-east-1",
+    endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+});
+var ddb = new AWS.DynamoDB.DocumentClient();
+exports.ddb = ddb;
 
+/*Route Imports*/
 var index = require('./routes/index');
+var auctions = require('./routes/auctions');
 
 var app = express();
 
@@ -22,6 +33,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/auction/', auctions);
+app.use('/admin/', admin);
 //app.use('/users', users);
 
 // catch 404 and forward to error handler

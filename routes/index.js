@@ -1,17 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-
-
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index');
 });
 
 router.post('/', function(req, res){
-	res.render('index');
-	console.log(req.body.auction_id);
-})
+	var auction_id = req.body.auction_id;
+	res.redirect('auction/abcdef')
+});
 
 module.exports = router;
