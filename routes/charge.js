@@ -6,6 +6,7 @@ var dateFormat = require('dateformat');
 var ddb = modules.ddb;
 var STRIPE_API_KEY = modules.STRIPE_API_KEY;
 var STRIPE_PUBLIC_KEY = modules.STRIPE_PUBLIC_KEY;
+var stripe = require("stripe")(STRIPE_API_KEY);
 var service_email = modules.service_email;
 var email_pass = modules.email_pass;
 
@@ -20,6 +21,7 @@ var transporter = nodemailer.createTransport({
 
 router.post('/', function(req, res, next) {
 	var amount = req.body.amount;
+	amount = parseFloat(amount).toFixed(2);
 	var email = req.body.email;
 	var first_name = req.body.first_name;
 	var last_name = req.body.last_name;
@@ -41,35 +43,64 @@ router.post('/', function(req, res, next) {
 	    	var end_time = dateFormat(data['ending_time'],'dddd, mmmm dS, yyyy "at" h:MM:ss TT');
 	    	end_time = end_time.replace('"ap"', 'at');
 	    	var charity = data['charity'];
+
+
 	    	/*CHARGE TOKEN*/
+	    	stripe.charges.create({
+			  amount: Math.floor(amount*100),
+			  currency: "usd",
+			  source: stripe_token,
+			  description: "Charge from Charity Labs"
+			}, function(err, charge) {
+				var stripe_id = charge['id'];
+				var date = dateFormat(new Date(),"isoDateTime");
 
-	    	/*CREATE BID ENTRY IN DATABASE*/
+				/*CREATE BID ENTRY IN DATABASE*/
+				var params = {
+				    TableName:'Bids',
+				    Item:{
+						"stripe_id":stripe_id,
+						"auction_id":auction_id,
+						"amount": Math.floor(amount*100),
+						"email":email,
+						"time":date
+				    }
+				};
+				console.log(params);
+				ddb.put(params, function(err, data) {
+				    if (err) {
+				        console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+				    } else {
+				        console.log("Added item:", JSON.stringify(data, null, 2));
+				    }
+				});
 
-	    	/*UPDATE AUCTION IF NECESSARY*/
+		    	/*UPDATE AUCTION IF NECESSARY*/
 
 
-	    	/*SEND EMAIL*/
-	    	var mailOptions = {
-			  from: service_email,
-			  to: email,
-			  subject: `Confirming your Donation to ${charity}`,
-			  text: `Hey, ${first_name}!\n\nThank you for your generous donation to ${charity}!\n\nMake sure to check back in on ${end_time} to see if you've won!\n\n      Donation Total: $${amount}\n\n\nSincerely,\nCharity Labs Team`
-			};
-			transporter.sendMail(mailOptions, function(error, info){
-			  if (error) {
-			    console.log(error);
-			  } else {
-			    console.log('Email sent: ' + info.response);
-			  }
+		    	/*SEND EMAIL*/
+		    	var mailOptions = {
+				  from: service_email,
+				  to: email,
+				  subject: `Confirming your Donation to ${charity}`,
+				  text: `Hey, ${first_name}!\n\nThank you for your generous donation to ${charity}!\n\nMake sure to check back in on ${end_time} to see if you've won!\n\n      Donation Total: $${amount}\n\n\nSincerely,\nCharity Labs Team`
+				};
+				transporter.sendMail(mailOptions, function(error, info){
+				  if (error) {
+				    console.log(error);
+				  } else {
+				    console.log('Email sent: ' + info.response);
+				  }
+				});
+
+				/*RENDER CONFIRMATION PAGE*/
+				context = data;
+				context['auction_link'] = req.headers.host+'/auction/'+data['auction_id'];
+				context['first_name'] = first_name;
+				context['amount'] = amount;
+				context['end_time'] = end_time;
+				res.render('confirmation', context);
 			});
-
-			/*RENDER CONFIRMATION PAGE*/
-			context = data;
-			context['auction_link'] = req.headers.host+'/auction/'+data['auction_id'];
-			context['first_name'] = first_name;
-			context['amount'] = amount;
-			context['end_time'] = end_time;
-			res.render('confirmation', context);
 	    }
 	});
 });
