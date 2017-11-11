@@ -12,13 +12,13 @@
       <fieldset>
         <img src=<%= image%> height=200>
         <h2><%= charity%></h2>
-        <a href='<%= link%>' target="_top">View their site</a>
+        <a href='<%= link%>' target="_blank">View their site</a>
         <h2>Location: <%= location%></h2>
         <h3><%= city%>, <%= state%></h3>
         <div>
           <script src="https://js.stripe.com/v3/"></script>
 
-            <form action="/charge" method="post" id="payment-form">
+            <form action="/confirmation" method="post" id="payment-form">
               <div class="form-row">
                 <label for="card-element">Donation Amount</label><br>
                 <input name="amount" type="text" placeholder="Enter at least 1.00"/><br><br>
@@ -106,9 +106,12 @@
               hiddenInput.setAttribute('type', 'hidden');
               hiddenInput.setAttribute('name', 'stripeToken');
               hiddenInput.setAttribute('value', token.id);
-              hiddenInput.setAttribute('auction_id', '<%= auction_id%>');
               form.appendChild(hiddenInput);
-              // Submit the form
+              hiddenInput = document.createElement('input');
+              hiddenInput.setAttribute('type', 'hidden');
+              hiddenInput.setAttribute('name', 'auction_id');
+              hiddenInput.setAttribute('value', '<%= auction_id%>');
+              form.appendChild(hiddenInput);
               form.submit();
             }
           </script>

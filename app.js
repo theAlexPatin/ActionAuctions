@@ -11,12 +11,23 @@ AWS.config.update({
     region: "us-east-1",
     endpoint: "https://dynamodb.us-east-1.amazonaws.com"
 });
+
+/*
+GLOBAL VARIABLE DECLARATIONS
+*/
 var ddb = new AWS.DynamoDB.DocumentClient();
-var STRIPE_API_KEY = "sk_test_5touzY5sFtfwT0lBuwbvD4l6"
-var STRIPE_PUBLIC_KEY = "pk_test_08b8DgWK3wRVmfdrhCtg3mVa"
+var STRIPE_API_KEY = "sk_test_5touzY5sFtfwT0lBuwbvD4l6";
+var STRIPE_PUBLIC_KEY = "pk_test_08b8DgWK3wRVmfdrhCtg3mVa";
+var service_email = "charity_labs@yahoo.com";
+var email_pass = "420Blazeit6969";
 exports.ddb = ddb;
 exports.STRIPE_API_KEY = STRIPE_API_KEY;
 exports.STRIPE_PUBLIC_KEY = STRIPE_PUBLIC_KEY;
+exports.service_email = service_email;
+exports.email_pass = email_pass;
+/*END DECLARATIONS*/
+
+
 /*Route Imports*/
 var index = require('./routes/index');
 var auctions = require('./routes/auctions');
@@ -40,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/auction/', auctions);
 app.use('/donate/', donate);
-app.use('/charge/', charge);
+app.use('/confirmation/', charge);
 //app.use('/admin/', admin);
 //app.use('/users', users);
 
