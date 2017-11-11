@@ -21,6 +21,7 @@ exports.STRIPE_PUBLIC_KEY = STRIPE_PUBLIC_KEY;
 var index = require('./routes/index');
 var auctions = require('./routes/auctions');
 var donate = require('./routes/donate');
+var charge = require('./routes/charge');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/auction/', auctions);
 app.use('/donate/', donate);
+app.use('/charge/', charge);
 //app.use('/admin/', admin);
 //app.use('/users', users);
 

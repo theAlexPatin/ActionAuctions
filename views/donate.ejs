@@ -20,12 +20,19 @@
 
             <form action="/charge" method="post" id="payment-form">
               <div class="form-row">
+                <label for="card-element">Donation Amount</label><br>
+                <input name="amount" type="text" placeholder="Enter at least 1.00"/><br><br>
+                <label for="card-element">Your information</label><br>
+                <input name="first_name" type="text" placeholder="First Name" />
+                <input name="last_name" type="text" placeholder="Last Name" />
+                <input name="email" type="text" placeholder="Email" /><br><br>
+
                 <label for="card-element">
                   Credit or debit card
                 </label>
                 <div id="card-element">
                   <!-- a Stripe Element will be inserted here. -->
-                </div>
+                </div><br>
 
                 <!-- Used to display form errors -->
                 <div id="card-errors" role="alert"></div>
@@ -62,7 +69,6 @@
 
             // Create an instance of the card Element
             var card = elements.create('card', {style: style});
-
             // Add an instance of the card Element into the `card-element` <div>
             card.mount('#card-element');
 
@@ -92,6 +98,19 @@
                 }
               });
             });  
+
+            function stripeTokenHandler(token) {
+              // Insert the token ID into the form so it gets submitted to the server
+              var form = document.getElementById('payment-form');
+              var hiddenInput = document.createElement('input');
+              hiddenInput.setAttribute('type', 'hidden');
+              hiddenInput.setAttribute('name', 'stripeToken');
+              hiddenInput.setAttribute('value', token.id);
+              hiddenInput.setAttribute('auction_id', '<%= auction_id%>');
+              form.appendChild(hiddenInput);
+              // Submit the form
+              form.submit();
+            }
           </script>
         </div>
 
