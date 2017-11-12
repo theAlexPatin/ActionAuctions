@@ -27,6 +27,10 @@ $ npm start
 $ eb deploy
 ```
 
+## Testing
+
+When entering credit card info, use 4242 4242 4242 4242 with any exp date, cvv, zip 
+
 ### Resources:
 - [ElasticBeanstalk tutorial](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-django.html)
 - [Stripe API](https://stripe.com/docs/api/python)

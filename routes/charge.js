@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var uuid = require('uuid/v1');
 var modules = require('../app');
 var tools = require('../tools');
 var dateFormat = require('dateformat');
@@ -46,15 +47,18 @@ router.post('/', function(req, res, next) {
 				if (err)
 					res.redirect('/payment-error');
 				else{
-					var stripe_id = charge['id'];
+					var charge_id = charge['id'];
 					var date = dateFormat(new Date(),"isoDateTime");
 
 					/*CREATE BID ENTRY IN DATABASE*/
+					var bidder_id = "" + uuid()
+		    		bidder_id = bidder_id.split('-').join('');
 					var params = {
 					    TableName:'Bids',
 					    Item:{
-							"stripe_id":stripe_token,
-							"charge_id":stripe_id,
+					    	"bidder_id": bidder_id,
+							"stripe_token":stripe_token,
+							"charge_id":charge_id,
 							"card_id":card_id,
 							"first_name":first_name,
 							"last_name":last_name,
@@ -80,7 +84,7 @@ router.post('/', function(req, res, next) {
 					    var ExpressionAttributeValues = {
 					        ":c":current_amount,
 					        ":h":Math.floor(amount*100),
-					        ":b":stripe_token
+					        ":b":bidder_id
 					    };
 			    	} else{
 			    		var UpdateExpression = "set current_amt=:c";

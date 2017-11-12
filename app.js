@@ -23,14 +23,17 @@ exports.email_pass = "420Blazeit6969";
 exports.base_url = "http://localhost:3000";
 /*END DECLARATIONS*/
 
+var app = express();
 
 /*Route Imports*/
 var index = require('./routes/index');
 var auctions = require('./routes/auctions');
 var donate = require('./routes/donate');
 var charge = require('./routes/charge');
-var test = require('./routes/test');
-var app = express();
+var winner = require('./routes/winner');
+var test = require('./routes/test'); //Route used for testing anything that might require express stuff
+
+
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
@@ -44,13 +47,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*Route links*/
 app.use('/', index);
 app.use('/auction/', auctions);
 app.use('/donate/', donate);
 app.use('/confirmation/', charge);
+app.use('/winner/', winner);
 app.use('/testing/', test);
-//app.use('/admin/', admin);
-//app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

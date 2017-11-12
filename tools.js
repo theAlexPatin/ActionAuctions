@@ -3,7 +3,6 @@ var service_email = modules.service_email;
 var ddb = modules.ddb;
 var email_pass = modules.email_pass;
 var nodemailer = require('nodemailer');
-var uuid = require('uuid/v1');
 var host = modules.base_url;
 
 var transporter = nodemailer.createTransport({
@@ -46,16 +45,15 @@ module.exports = {
 			}
 		};
 		ddb.get(params, function(err, data){
-			auction_data = data['Item'];
-			console.log(auction_data);
 			if (err)
 	        	console.log("Error fetching auction from database");
 		    else{
+		    	auction_data = data['Item'];
 		    	console.log('got auction data');
 		    	params = {
 		    		TableName: "Bids",
 		    		Key:{
-		    			"stripe_id":auction_data['highest_bidder']
+		    			"bidder_id":auction_data['highest_bidder']
 		    		}
 		    	}
 		    	ddb.get(params, function(err, data){
@@ -67,20 +65,20 @@ module.exports = {
 		    			var email  = bidder_data['email'];
 		    			var first_name = bidder_data['first_name'];
 		    			var amount = parseFloat(new String(Math.floor(auction_data['current_amt'] / 2)/100)).toFixed(2);
+				    	var total = parseFloat(new String(Math.floor(auction_data['current_amt'])/100)).toFixed(2);
 				    	var charity = auction_data['charity'];
-		    			var winner_id = "" + uuid()
-		    			winner_id = winner_id.split('-').join('');
-		    			var link = host + '/winner/' + winner_id;
+		    			var link = host + '/winner/' + bidder_data['bidder_id'];
 		    			console.log(link);
 					    var params = {
 				    		TableName:"Auctions",
 				    		Key:{
 				    			"auction_id":auction_id
 				    		},
-				    		UpdateExpression: "set winner_url=:w, reimbursed=:r",
+				    		UpdateExpression: "set winner_url=:w, has_ended=:h, reimbursed=:r",
 				    		ExpressionAttributeValues: {
-						        ":w":winner_id,
-						        ":r":false
+						        ":w":bidder_data['bidder_id'],
+						        ":r":false,
+						        ":h":true
 						    },
 				  			ReturnValues:"UPDATED_NEW"
 				    	}
@@ -90,7 +88,7 @@ module.exports = {
 						    } else {
 						    	console.log("updated auction data");
 				    			var subject=`Congrats! You've won auction ${auction_id}`;
-								var text = `Congratulations, ${first_name}!\n\nYou made the largest donation, so you've won $${amount}.\n\nBut wait!\n\nYou can still choose to donate your earnings and feel great about yourself!\n\nFollow the link below to redeem your earnings or donate them to ${charity}\n\n${link}\n\nSincreley,\nCharity Labs Team`;
+								var text = `Congratulations, ${first_name}!\n\nYou made the largest donation. All donations totaled to $${total}, so you've won $${amount}.\n\nBut wait!\n\nYou can still choose to donate your earnings and feel great about yourself!\n\nFollow the link below to redeem your earnings or donate them to ${charity}\n\n${link}\n\nSincreley,\nCharity Labs Team`;
 								sendEmail(subject, text, email);
 						    }
 						});
