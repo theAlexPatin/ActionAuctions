@@ -112,6 +112,11 @@
               hiddenInput.setAttribute('name', 'auction_id');
               hiddenInput.setAttribute('value', '<%= auction_id%>');
               form.appendChild(hiddenInput);
+              hiddenInput = document.createElement('input');
+              hiddenInput.setAttribute('type', 'hidden');
+              hiddenInput.setAttribute('name', 'card_id');
+              hiddenInput.setAttribute('value', token.card['id']);
+              form.appendChild(hiddenInput);
               form.submit();
             }
           </script>

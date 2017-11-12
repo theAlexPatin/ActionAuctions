@@ -1,23 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var modules = require('../app');
-var nodemailer = require('nodemailer');
+var tools = require('../tools');
 var dateFormat = require('dateformat');
 var ddb = modules.ddb;
 var STRIPE_API_KEY = modules.STRIPE_API_KEY;
 var STRIPE_PUBLIC_KEY = modules.STRIPE_PUBLIC_KEY;
 var stripe = require("stripe")(STRIPE_API_KEY);
-var service_email = modules.service_email;
-var email_pass = modules.email_pass;
 
-
-var transporter = nodemailer.createTransport({
-  service: 'yahoo',
-  auth: {
-    user: service_email,
-    pass: email_pass
-  }
-});
 
 router.post('/', function(req, res, next) {
 	var amount = req.body.amount;
@@ -27,6 +17,7 @@ router.post('/', function(req, res, next) {
 	var last_name = req.body.last_name;
 	var stripe_token = req.body.stripeToken;
 	var auction_id = req.body.auction_id;
+	var card_id = req.body.card_id;
 
 	/*FETCH AUCTION DETAILS FROM DATABASE*/
 	var params = {
@@ -62,14 +53,17 @@ router.post('/', function(req, res, next) {
 					var params = {
 					    TableName:'Bids',
 					    Item:{
-							"stripe_id":stripe_id,
+							"stripe_id":stripe_token,
+							"charge_id":stripe_id,
+							"card_id":card_id,
+							"first_name":first_name,
+							"last_name":last_name,
 							"auction_id":auction_id,
 							"amount": Math.floor(amount*100),
 							"email":email,
 							"time":date
 					    }
 					};
-					console.log(params);
 					ddb.put(params, function(err, data) {
 					    if (err) {
 					        console.error("Unable to add item");
@@ -86,7 +80,7 @@ router.post('/', function(req, res, next) {
 					    var ExpressionAttributeValues = {
 					        ":c":current_amount,
 					        ":h":Math.floor(amount*100),
-					        ":b":stripe_id
+					        ":b":stripe_token
 					    };
 			    	} else{
 			    		var UpdateExpression = "set current_amt=:c";
@@ -94,7 +88,6 @@ router.post('/', function(req, res, next) {
 					        ":c":current_amount
 					    };
 			    	}
-			    	console.log(ExpressionAttributeValues)
 			    	var params = {
 			    		TableName:"Auctions",
 			    		Key:{
@@ -112,24 +105,13 @@ router.post('/', function(req, res, next) {
 					    }
 					});
 
-			    	/*SEND EMAIL*/
-			    	var mailOptions = {
-					  from: service_email,
-					  to: email,
-					  subject: `Confirming your Donation to ${charity}`,
-					  text: `Hey, ${first_name}!\n\nThank you for your generous donation to ${charity}!\n\nMake sure to check back in on ${end_time} to see if you've won!\n\n      Donation Total: $${amount}\n\n\nSincerely,\nCharity Labs Team`
-					};
-					transporter.sendMail(mailOptions, function(error, info){
-					  if (error) {
-					    console.log(error);
-					  } else {
-					    console.log('Email sent: ' + info.response);
-					  }
-					});
+			    	/*EMAIL CONFIRMATION*/
+			    	tools.email_confirmation(charity, first_name, end_time, amount, email);
 
 					/*RENDER CONFIRMATION PAGE*/
 					context = data;
 					context['auction_link'] = req.headers.host+'/auction/'+data['auction_id'];
+					console.log(context['auction_link']);
 					context['first_name'] = first_name;
 					context['amount'] = amount;
 					context['end_time'] = end_time;
