@@ -42,7 +42,7 @@ router.get('/', function(req, res, next){
 					if(err){
 						console.log('error updating winner stripe account');
 					} else{
-						bidder_data = data['Item'];
+						bidder_data = data['Attributes'];
 						auction_id = bidder_data['auction_id'];
 						params={
 							TableName:'Auctions',
@@ -57,7 +57,7 @@ router.get('/', function(req, res, next){
 							if (err){
 								console.log('error updating auction data')
 							} else{
-								auction_data = data['Item'];
+								auction_data = data['Attributes'];
 								var amount = Math.floor(auction_data['current_amt'] / 2);
 								stripe.transfers.create({
 									amount:amount,
@@ -65,9 +65,21 @@ router.get('/', function(req, res, next){
 									destination:acc.id
 								}, function(err, transfer){
 									if(err){
+										res.render('error');
 										console.log('error issuing transfer');
-										//set reimbursed to false
+										console.log(err);
+										params = {
+											TableName:"Auctions",
+											Key:{"auction_id":auction_id},
+											UpdateExpression:"set reimbursed=:r",
+											ExpressionAttributeValues:{":r":false}
+										}
+										ddb.update(params,function(err,data){
+											if(err)
+												console.log('error reseting auction reimbursed');
+										});
 									} else{
+										res.render('reimbursed');
 										tools.payout_confirmation(
 											bidder_data['first_name'], 
 											parseFloat(new String(Math.floor(amount/100))).toFixed(2), 

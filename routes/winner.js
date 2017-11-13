@@ -34,7 +34,7 @@ router.get('/:winner_id', function(req, res, next) {
 					data = data['Item'];
 					if(data['winner_url'] !== winner_id)
 						res.redirect('/');
-					if('reimbursed' in data || 'donated' in data)
+					if(('reimbursed' in data && data['reimbursed']) || 'donated' in data)
 						res.redirect('/');
 					context = bid_data;
 					context['charity'] = data['charity'];
