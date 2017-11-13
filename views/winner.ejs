@@ -17,11 +17,9 @@
         <input type="hidden" name="auction_id" value="<%= auction_id%>">
       </form>
       <h3>...or have them transferred to your account</h3>
-      <form id='transfer' action="/winner/<%= bidder_id%>" method="POST">
-        <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Receive Earnings</button>
-        <input type="hidden" name="donate" value="false">
-        <input type="hidden" name="auction_id" value="<%= auction_id%>">
-      </form>
+      <a href='<%=redirect_uri%>' target='_top'>
+          <img src='../images/blue-on-light.png'/>
+      </a>
     </div>
   </body>
 </html>

@@ -18,6 +18,7 @@ GLOBAL VARIABLE DECLARATIONS
 exports.ddb = new AWS.DynamoDB.DocumentClient();;
 exports.STRIPE_API_KEY = "sk_test_5touzY5sFtfwT0lBuwbvD4l6";
 exports.STRIPE_PUBLIC_KEY = "pk_test_08b8DgWK3wRVmfdrhCtg3mVa";
+exports.STRIPE_CLIENT_ID = 'ca_BI52uK0mUKaVbtZnW1rfg7LKfvgGoWFY';
 exports.service_email = "charity_labs@yahoo.com";
 exports.email_pass = "420Blazeit6969";
 exports.base_url = "http://localhost:3000";
@@ -32,7 +33,7 @@ var donate = require('./routes/donate');
 var charge = require('./routes/charge');
 var winner = require('./routes/winner');
 var test = require('./routes/test'); //Route used for testing anything that might require express stuff
-
+var payout = require('./routes/payout');
 
 
 // view engine setup
@@ -54,6 +55,7 @@ app.use('/donate/', donate);
 app.use('/confirmation/', charge);
 app.use('/winner/', winner);
 app.use('/testing/', test);
+app.use('/payout/', payout);
 
 
 // catch 404 and forward to error handler

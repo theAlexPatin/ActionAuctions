@@ -30,8 +30,14 @@ function sendEmail(subject, text, email){
 }
 
 module.exports = {
-	
-	email_confirmation: function(charity, first_name, end_time, amount, email){
+	payout_confirmation: function(first_name, reimbursed_amt, email){
+		var subject=`Payment from Charity Labs`;
+		var text=`Hey, ${first_name}!\n\nYour payment of $${reimbursed_amt} is currently being processed. Please allow 2-5 business days for the transfer to occur!\n\nSincerely,\nCharity Labs Team`;
+		sendEmail(subject, text, email);
+	},
+
+
+	payment_confirmation: function(charity, first_name, end_time, amount, email){
 		var subject=`Confirming your Donation to ${charity}`;
 		var text = `Hey, ${first_name}!\n\nThank you for your generous donation to ${charity}!\n\nMake sure to check back in on ${end_time} to see if you've won!\n\n      Donation Total: $${amount}\n\n\nSincerely,\nCharity Labs Team`;
 		sendEmail(subject, text, email);

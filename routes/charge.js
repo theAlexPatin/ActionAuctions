@@ -65,7 +65,8 @@ router.post('/', function(req, res, next) {
 							"auction_id":auction_id,
 							"amount": Math.floor(amount*100),
 							"email":email,
-							"time":date
+							"time":date,
+							"payment_type":"stripe"
 					    }
 					};
 					ddb.put(params, function(err, data) {
@@ -110,7 +111,7 @@ router.post('/', function(req, res, next) {
 					});
 
 			    	/*EMAIL CONFIRMATION*/
-			    	tools.email_confirmation(charity, first_name, end_time, amount, email);
+			    	tools.payment_confirmation(charity, first_name, end_time, amount, email);
 
 					/*RENDER CONFIRMATION PAGE*/
 					context = data;
