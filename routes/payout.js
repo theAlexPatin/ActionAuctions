@@ -46,39 +46,27 @@ router.get('/', function(req, res, next){
 						auction_id = bidder_data['auction_id'];
 						params={
 							TableName:'Auctions',
-							Key:{'auction_id':auction_id},
-							UpdateExpression:"set reimbursed=:r",
-							ExpressionAttributeValues:{
-								":r":true
-							},
-							ReturnValues:'ALL_NEW'
+							Key:{'auction_id':auction_id}
 						}
-						ddb.update(params, function(err, data){
+						ddb.get(params, function(err, data){
 							if (err){
 								console.log('error updating auction data')
 							} else{
-								auction_data = data['Attributes'];
+								auction_data = data['Item'];
 								var amount = Math.floor(auction_data['current_amt'] / 2);
 								stripe.transfers.create({
 									amount:amount,
-									currency:'usd',
+									currency:'cad',
 									destination:acc.id
 								}, function(err, transfer){
+									var status = "";
 									if(err){
+										status = "reimbursement_failed";
 										res.render('error');
 										console.log('error issuing transfer');
 										console.log(err);
-										params = {
-											TableName:"Auctions",
-											Key:{"auction_id":auction_id},
-											UpdateExpression:"set reimbursed=:r",
-											ExpressionAttributeValues:{":r":false}
-										}
-										ddb.update(params,function(err,data){
-											if(err)
-												console.log('error reseting auction reimbursed');
-										});
 									} else{
+										status="reimbursed";
 										res.render('reimbursed');
 										tools.payout_confirmation(
 											bidder_data['first_name'], 
@@ -86,6 +74,16 @@ router.get('/', function(req, res, next){
 											bidder_data['email']
 										);
 									}
+									params = {
+										TableName:"Auctions",
+										Key:{"auction_id":auction_id},
+										UpdateExpression:"set payment_status=:r",
+										ExpressionAttributeValues:{":r":status}
+									}
+									ddb.update(params,function(err,data){
+										if(err)
+											console.log('Error setting payment status');
+									});
 								});
 							}
 						})

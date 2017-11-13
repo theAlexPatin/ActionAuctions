@@ -34,7 +34,7 @@ router.get('/:winner_id', function(req, res, next) {
 					data = data['Item'];
 					if(data['winner_url'] !== winner_id)
 						res.redirect('/');
-					if(('reimbursed' in data && data['reimbursed']) || 'donated' in data)
+					if(data['payment_status'] == 'reimbursed' || data['status'] == 'donated')
 						res.redirect('/');
 					context = bid_data;
 					context['charity'] = data['charity'];
@@ -58,9 +58,9 @@ router.post('/:winner_id', function(req, res, next){
 	params={
 		TableName:"Auctions",
 		Key:{"auction_id":auction_id},
-		UpdateExpression:"set donated=:d",
+		UpdateExpression:"set payment_status=:d",
 		ExpressionAttributeValues:{
-		    ":d":true
+		    ":d":"donated"
 		}
 	}
 	ddb.update(params, function(err,data){
