@@ -73,11 +73,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
-var stripe = require('stripe')("sk_test_5touzY5sFtfwT0lBuwbvD4l6");
-stripe.balance.retrieve(function(err, balance){
-	console.log(balance);
-})
-
-
 module.exports = app;
