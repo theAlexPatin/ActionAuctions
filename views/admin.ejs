@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Action Auctions</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <h2>Create new Auction</h2>
+    <div class="container">
+      <h3>Auction Info</h3>
+      <form id='donate' action="/admin/" method="POST">
+        <input type="text" name="auction_id" placeholder="Auction ID"><br><br>
+        <input type="text" name="charity" placeholder="Charity Name"><br><br>
+        <input type="text" name="city" placeholder="City"><br><br>
+        <input type="text" name="state" placeholder="State"><br><br>
+        <input type="text" name="location" placeholder="Event Location"><br><br>
+        <textarea name="description" cols="60" rows="5" placeholder="Description of Charity"></textarea><br><br>
+        <input type="text" style="width:300px" name="starting_time" placeholder="Start Time (format: 2018-01-08T12:00:00)"><br><br>
+        <input type="text" style="width:300px" name="ending_time" placeholder="End Time (format: 2018-01-08T12:00:00)"><br><br>
+        <input type="text" name="image" placeholder="Charity image link"><br><br>
+        <input type="text" name="link" placeholder="Charity Website"><br><br>
+        <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Submit!</button>
+      </form>
+    </div>
+  </body>
+</html>
