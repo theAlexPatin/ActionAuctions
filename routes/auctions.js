@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var modules = require('../app');
+var STRIPE_PUBLIC_KEY = modules.STRIPE_PUBLIC_KEY;
 var ddb = modules.ddb;
 
 router.get('/:auction_id', function(req, res, next) {
@@ -16,7 +17,9 @@ router.get('/:auction_id', function(req, res, next) {
 	    else {
 	    	if (data['Item'] == null)
 	    		res.redirect('/');
-	        res.render('auction', data['Item']);
+	    	context = data['Item'];
+	    	context['stripe_key'] = STRIPE_PUBLIC_KEY;
+	        res.render('auction', context);
 	    }
 	});
 });

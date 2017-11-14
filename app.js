@@ -30,7 +30,6 @@ var app = express();
 /*Route Imports*/
 var index = require('./routes/index');
 var auctions = require('./routes/auctions');
-var donate = require('./routes/donate');
 var charge = require('./routes/charge');
 var winner = require('./routes/winner');
 var test = require('./routes/test'); //Route used for testing anything that might require express stuff
@@ -52,7 +51,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*Route links*/
 app.use('/', index);
 app.use('/auction/', auctions);
-app.use('/donate/', donate);
 app.use('/confirmation/', charge);
 app.use('/winner/', winner);
 app.use('/testing/', test);
