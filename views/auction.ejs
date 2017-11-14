@@ -15,10 +15,52 @@
       <h2>Location: <%= location%></h2>
       <h3><%= city%>, <%= state%></h3>
       <p><%= description%></p>
-      <form action="/donate/" method="POST">
-        <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Join Auction!</button>
-        <input type="hidden" name="auction_id" value="<%= auction_id%>">
-      </form>
+      
+      <% if (has_ended){ %>
+          <h2>This auction has ended</h2><br>
+          <h2>A total of $<%=parseFloat(new String(Math.floor(current_amt)/100)).toFixed(2)%> was donated</h2>
+          <h2>The highest bid was $<%=parseFloat(new String(Math.floor(highest_bid)/100)).toFixed(2);%></h2>
+      <% }else{ %>
+          <h2 id='timeleft'>Time left: </h2>
+          <form id="joinform" action="/donate/" method="POST">
+            <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Join Auction!</button>
+            <input type="hidden" name="auction_id" value="<%= auction_id%>">
+          </form>
+
+      <% } %>
+
+      
     </div>
+    <script>
+      if (!<%=has_ended%>){
+        var countDownDate = new Date("<%= ending_time%>").getTime();
+        console.log(countDownDate);
+        var x = setInterval(function() {
+          // Get todays date and time
+          var now = new Date().getTime();
+
+          // Find the distance between now an the count down date
+          var distance = countDownDate - now;
+
+          // Time calculations for days, hours, minutes and seconds
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // Display the result in the element with id="demo"
+          document.getElementById("timeleft").innerHTML = "Time left: " + days + "d " + hours + "h "
+          + minutes + "m " + seconds + "s ";
+
+          // If the count down is finished, write some text 
+          if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timeleft").innerHTML = "AUCTION ENDED";
+            document.getElementById("joinform").style.display = "none";
+            //window.location = "/auction/<%= auction_id%>";
+          }
+        }, 1000);
+      }
+    </script>
   </body>
 </html>

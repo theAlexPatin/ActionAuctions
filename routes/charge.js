@@ -115,7 +115,7 @@ router.post('/', function(req, res, next) {
 
 					/*RENDER CONFIRMATION PAGE*/
 					context = data;
-					context['auction_link'] = req.headers.host+'/auction/'+data['auction_id'];
+					context['auction_link'] = '/auction/'+data['auction_id'];
 					console.log(context['auction_link']);
 					context['first_name'] = first_name;
 					context['amount'] = amount;

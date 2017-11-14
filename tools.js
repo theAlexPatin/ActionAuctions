@@ -69,12 +69,16 @@ module.exports = {
 };
 
 function start_job(auction_id, ending_time){
-	var b = ending_time.split(/\D+/);
-	var date = new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+	var date = new Date(ending_time);
+	console.log(date);
 	var job = schedule.scheduleJob(date,function(argument) {
-		console.log("notifying winner for "+auction_id);
-		notify_winner(auction_id);
-		job.cancel();
+		
+		var now = new Date();
+		if (now >= date){
+			console.log("notifying winner for "+auction_id);
+			notify_winner(auction_id);
+			job.cancel();
+		}
 	});
 }
 
