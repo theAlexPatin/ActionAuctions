@@ -9,6 +9,7 @@
   <body>
     <h2>Auction: <%= auction_id%></h2>
     <div class="container">
+    <script src="https://js.stripe.com/v3/"></script>
       <img src=<%= image%> height=200>
       <h2><%= charity%></h2>
       <a href='<%= link%>' target="_blank">View their site</a>
@@ -22,10 +23,28 @@
           <h2>The highest bid was $<%=parseFloat(new String(Math.floor(highest_bid)/100)).toFixed(2);%></h2>
       <% }else{ %>
           <h2 id='timeleft'>Time left: </h2>
-          <form id="joinform" action="/donate/" method="POST">
-            <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Join Auction!</button>
-            <input type="hidden" name="auction_id" value="<%= auction_id%>">
-          </form>
+          <form action="/confirmation" method="post" id="payment-form">
+              <div class="form-row">
+                <label for="card-element">Donation Amount</label><br>
+                <input name="amount" type="text" placeholder="Enter at least 1.00"/><br><br>
+                <label for="card-element">Your information</label><br>
+                <input name="first_name" type="text" placeholder="First Name" />
+                <input name="last_name" type="text" placeholder="Last Name" />
+                <input name="email" type="text" placeholder="Email" /><br><br>
+
+                <label for="card-element">
+                  Credit or debit card
+                </label>
+                <div id="card-element">
+                  <!-- a Stripe Element will be inserted here. -->
+                </div><br>
+
+                <!-- Used to display form errors -->
+                <div id="card-errors" role="alert"></div>
+              </div>
+
+              <button>Submit Donation!</button>
+            </form>
 
       <% } %>
 
@@ -51,15 +70,96 @@
           // Display the result in the element with id="demo"
           document.getElementById("timeleft").innerHTML = "Time left: " + days + "d " + hours + "h "
           + minutes + "m " + seconds + "s ";
-
+          if (minutes < 10){
+            document.getElementById("timeleft").style.color = "red";
+          }
           // If the count down is finished, write some text 
           if (distance < 0) {
             clearInterval(x);
             document.getElementById("timeleft").innerHTML = "AUCTION ENDED";
-            document.getElementById("joinform").style.display = "none";
+            document.getElementById("payment-form").style.display = "none";
             //window.location = "/auction/<%= auction_id%>";
           }
         }, 1000);
+      }
+    </script>
+    <script>
+      // Create a Stripe client
+      var stripe = Stripe('<%= stripe_key%>');
+
+      // Create an instance of Elements
+      var elements = stripe.elements();
+
+      // Custom styling can be passed to options when creating an Element.
+      // (Note that this demo uses a wider set of styles than the guide below.)
+      var style = {
+        base: {
+          color: '#32325d',
+          lineHeight: '18px',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '16px',
+          '::placeholder': {
+            color: '#aab7c4'
+          }
+        },
+        invalid: {
+          color: '#fa755a',
+          iconColor: '#fa755a'
+        }
+      };
+
+      // Create an instance of the card Element
+      var card = elements.create('card', {style: style});
+      // Add an instance of the card Element into the `card-element` <div>
+      card.mount('#card-element');
+
+      // Handle real-time validation errors from the card Element.
+      card.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = '';
+        }
+      });
+
+      // Handle form submission
+      var form = document.getElementById('payment-form');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+          if (result.error) {
+            // Inform the user if there was an error
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+          } else {
+            // Send the token to your server
+            stripeTokenHandler(result.token);
+          }
+        });
+      });  
+
+      function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'auction_id');
+        hiddenInput.setAttribute('value', '<%= auction_id%>');
+        form.appendChild(hiddenInput);
+        hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'card_id');
+        hiddenInput.setAttribute('value', token.card['id']);
+        form.appendChild(hiddenInput);
+        form.submit();
       }
     </script>
   </body>
