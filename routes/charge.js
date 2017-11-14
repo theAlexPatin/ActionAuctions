@@ -31,100 +31,108 @@ router.post('/', function(req, res, next) {
 		if (err)
         	res.redirect('/');
 	    else {
-	    	data = data['Item'];
-	    	var end_time = dateFormat(data['ending_time'],'dddd, mmmm dS, yyyy "at" h:MM:ss TT');
-	    	end_time = end_time.replace('"ap"', 'at');
-	    	var charity = data['charity'];
+	    	var now = new Date();
+	    	var end_time = new Date(auction['ending_time']);
+	    	if (now > end_time){
+	    		render('out_of_time');
+	    	}
+	    	else{
+	    		data = data['Item'];
+		    	var end_time = dateFormat(data['ending_time'],'dddd, mmmm dS, yyyy "at" h:MM:ss TT');
+		    	end_time = end_time.replace('"ap"', 'at');
+		    	var charity = data['charity'];
 
 
-	    	/*CHARGE TOKEN*/
-	    	stripe.charges.create({
-			  amount: Math.floor(amount*100),
-			  currency: "usd",
-			  source: stripe_token,
-			  description: "Charge from Charity Labs"
-			}, function(err, charge) {
-				if (err)
-					res.redirect('/payment-error');
-				else{
-					var charge_id = charge['id'];
-					var date = dateFormat(new Date(),"isoDateTime");
+		    	/*CHARGE TOKEN*/
+		    	stripe.charges.create({
+				  amount: Math.floor(amount*100),
+				  currency: "usd",
+				  source: stripe_token,
+				  description: "Charge from Charity Labs"
+				}, function(err, charge) {
+					if (err)
+						res.redirect('/payment-error');
+					else{
+						var charge_id = charge['id'];
+						var date = dateFormat(new Date(),"isoDateTime");
 
-					/*CREATE BID ENTRY IN DATABASE*/
-					var bidder_id = "" + uuid()
-		    		bidder_id = bidder_id.split('-').join('');
-					var params = {
-					    TableName:'Bids',
-					    Item:{
-					    	"bidder_id": bidder_id,
-							"stripe_token":stripe_token,
-							"charge_id":charge_id,
-							"card_id":card_id,
-							"first_name":first_name,
-							"last_name":last_name,
-							"auction_id":auction_id,
-							"amount": Math.floor(amount*100),
-							"email":email,
-							"time":date,
-							"payment_type":"stripe"
-					    }
-					};
-					ddb.put(params, function(err, data) {
-					    if (err) {
-					        console.error("Unable to add item");
-					    } else {
-					        console.log("Added item");
-					    }
-					});
+						/*CREATE BID ENTRY IN DATABASE*/
+						var bidder_id = "" + uuid()
+			    		bidder_id = bidder_id.split('-').join('');
+						var params = {
+						    TableName:'Bids',
+						    Item:{
+						    	"bidder_id": bidder_id,
+								"stripe_token":stripe_token,
+								"charge_id":charge_id,
+								"card_id":card_id,
+								"first_name":first_name,
+								"last_name":last_name,
+								"auction_id":auction_id,
+								"amount": Math.floor(amount*100),
+								"email":email,
+								"time":date,
+								"payment_type":"stripe"
+						    }
+						};
+						ddb.put(params, function(err, data) {
+						    if (err) {
+						        console.error("Unable to add item");
+						    } else {
+						        console.log("Added item");
+						    }
+						});
 
-			    	/*UPDATE AUCTION DATABASE RECORD*/
-			    	var current_amount = data['current_amt'] + Math.floor(amount*100);
-			   		//If this bid is greater than previous highest, update that
-			    	if(Math.floor(amount*100) > data['highest_bid']){
-			    		var UpdateExpression = "set highest_bid=:h, highest_bidder=:b, current_amt=:c";
-					    var ExpressionAttributeValues = {
-					        ":c":current_amount,
-					        ":h":Math.floor(amount*100),
-					        ":b":bidder_id
-					    };
-			    	} else{
-			    		var UpdateExpression = "set current_amt=:c";
-					    var ExpressionAttributeValues = {
-					        ":c":current_amount
-					    };
-			    	}
-			    	var params = {
-			    		TableName:"Auctions",
-			    		Key:{
-			    			"auction_id":auction_id
-			    		},
-			    		UpdateExpression: UpdateExpression,
-			    		ExpressionAttributeValues: ExpressionAttributeValues,
-			  			ReturnValues:"UPDATED_NEW"
-			    	}
-			    	ddb.update(params, function(err, data) {
-					    if (err) {
-					        console.error("Unable to update item.", JSON.stringify(err, null, 2));
-					    } else {
-					        console.log("UpdateItem succeeded");
-					    }
-					});
+				    	/*UPDATE AUCTION DATABASE RECORD*/
+				    	var current_amount = data['current_amt'] + Math.floor(amount*100);
+				   		//If this bid is greater than previous highest, update that
+				    	if(Math.floor(amount*100) > data['highest_bid']){
+				    		var UpdateExpression = "set highest_bid=:h, highest_bidder=:b, current_amt=:c";
+						    var ExpressionAttributeValues = {
+						        ":c":current_amount,
+						        ":h":Math.floor(amount*100),
+						        ":b":bidder_id
+						    };
+				    	} else{
+				    		var UpdateExpression = "set current_amt=:c";
+						    var ExpressionAttributeValues = {
+						        ":c":current_amount
+						    };
+				    	}
+				    	var params = {
+				    		TableName:"Auctions",
+				    		Key:{
+				    			"auction_id":auction_id
+				    		},
+				    		UpdateExpression: UpdateExpression,
+				    		ExpressionAttributeValues: ExpressionAttributeValues,
+				  			ReturnValues:"UPDATED_NEW"
+				    	}
+				    	ddb.update(params, function(err, data) {
+						    if (err) {
+						        console.error("Unable to update item.", JSON.stringify(err, null, 2));
+						    } else {
+						        console.log("UpdateItem succeeded");
+						    }
+						});
 
-			    	/*EMAIL CONFIRMATION*/
-			    	tools.payment_confirmation(charity, first_name, end_time, amount, email);
+				    	/*EMAIL CONFIRMATION*/
+				    	tools.payment_confirmation(charity, first_name, end_time, amount, email);
 
-					/*RENDER CONFIRMATION PAGE*/
-					context = data;
-					context['auction_link'] = '/auction/'+data['auction_id'];
-					console.log(context['auction_link']);
-					context['first_name'] = first_name;
-					context['amount'] = amount;
-					context['end_time'] = end_time;
-					delete context['highest_bidder'];
-					delete context['highest_bid'];
-					res.render('confirmation', context);
-				}
-			});
+						/*RENDER CONFIRMATION PAGE*/
+						context = data;
+						context['auction_link'] = '/auction/'+data['auction_id'];
+						console.log(context['auction_link']);
+						context['first_name'] = first_name;
+						context['amount'] = amount;
+						context['end_time'] = end_time;
+						delete context['highest_bidder'];
+						delete context['highest_bid'];
+						res.render('confirmation', context);
+					}
+				});
+	    	}
+	    	
 	    }
 	});
 });
