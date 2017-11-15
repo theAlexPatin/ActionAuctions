@@ -11,8 +11,9 @@ var stripe = require("stripe")(STRIPE_API_KEY);
 
 
 function formValidation(data){
+	if (data.amount == '' || data.first_name == '' || data.last_name == '' || data.email == '')
+		return false;
 	var amount = Number(data.amount.replace(/[\$,]/g, ''));
-	console.log(amount);
 	if (amount < 1 || amount > 100000){
 		return false;
 	}

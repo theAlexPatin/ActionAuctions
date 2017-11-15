@@ -47,8 +47,7 @@
                 <!-- Used to display form errors -->
                 <div id="card-errors" role="alert"></div>
               </div>
-
-              <button>Submit Donation!</button>
+              <button id="submit-button">Submit Donation!</button>
             </form>
       <% } %>
 
@@ -146,6 +145,7 @@
       });  
 
       function stripeTokenHandler(token) {
+        
         // Insert the token ID into the form so it gets submitted to the server
         var form = document.getElementById('payment-form');
         var hiddenInput = document.createElement('input');
@@ -164,6 +164,7 @@
         hiddenInput.setAttribute('value', token.card['id']);
         form.appendChild(hiddenInput);
         form.submit();
+
       }
     </script>
     <script>

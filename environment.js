@@ -22,7 +22,7 @@ module.exports = {
 */
 
 
-Local Deployment
+//Local Deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_test_5touzY5sFtfwT0lBuwbvD4l6", 
 	STRIPE_PUBLIC_KEY:"pk_test_08b8DgWK3wRVmfdrhCtg3mVa",
