@@ -5,6 +5,9 @@
     <title>Action Auctions</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+
   </head>
   <body>
     <h2>Auction: <%= auction_id%></h2>
@@ -26,7 +29,9 @@
           <form action="/confirmation" method="post" id="payment-form">
               <div class="form-row">
                 <label for="card-element">Donation Amount</label><br>
-                <input name="amount" type="text" placeholder="Enter at least 1.00"/><br><br>
+                <div class="money">
+                    <input id="amount" name="amount" placeholder="Enter at least $1.00" type="text" class="numberOnly"/>
+                </div><br><br>
                 <label for="card-element">Your information</label><br>
                 <input name="first_name" type="text" placeholder="First Name" />
                 <input name="last_name" type="text" placeholder="Last Name" />
@@ -160,6 +165,17 @@
         form.appendChild(hiddenInput);
         form.submit();
       }
+    </script>
+    <script>
+      $('#amount').inputmask("numeric", {
+          radixPoint: ".",
+          groupSeparator: ",",
+          digits: 2,
+          autoGroup: true,
+          prefix: '$ ', //Space after $, this will not truncate the first character.
+          rightAlign: false,
+          oncleared: function () { self.Value(''); }
+      });
     </script>
   </body>
 </html>
