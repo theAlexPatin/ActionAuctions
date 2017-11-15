@@ -38,5 +38,5 @@ node_modules/
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
-environment.js
+
 elb-acm.json
