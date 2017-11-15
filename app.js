@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var tools = require('./tools');
 var AWS = require('aws-sdk');
-var settings = require('./enivronment');
+var settings = require('./environment');
 /*Connect to DynamoDB*/
 AWS.config.update({
     region: "us-east-1",
