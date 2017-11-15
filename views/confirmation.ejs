@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Action Auctions</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <h2>Donation Confirmation</h2>
+    <div class="container">
+      <h2>Thanks, <%= first_name%>!</h2><br>
+      <h3>We've received your donation of $<%= amount%> to <%= charity%></h3><br>
+      <h3>You should be receiving an email confirmation soon!</h3> 
+      <h3>Make sure to check back on <%= end_time%> to see if you've won!</h3><br><br>
+    </div>
+    <a href="<%= auction_link%>" target="_top">Return to Auction</a>
+  </body>
+</html>
