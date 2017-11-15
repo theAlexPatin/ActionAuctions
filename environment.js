@@ -8,7 +8,7 @@ module.exports = {
 	email_pass:"Fuck Poverty123!",
 	base_url:"http://aaprod.us-east-1.elasticbeanstalk.com"
 }
-*/
+
 
 //Dev deployment
 module.exports = {
@@ -19,8 +19,9 @@ module.exports = {
 	email_pass:"Fuck Poverty123!",
 	base_url:"http://aaprod.us-east-1.elasticbeanstalk.com"
 }
+*/
 
-/*
+
 Local Deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_test_5touzY5sFtfwT0lBuwbvD4l6", 
@@ -30,4 +31,3 @@ module.exports = {
 	email_pass:"Fuck Poverty123!",
 	base_url:"http://localhost:3000"
 }
-*/
