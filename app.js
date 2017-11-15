@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var tools = require('./tools');
 var AWS = require('aws-sdk');
+var settings = require('./enivronment');
 /*Connect to DynamoDB*/
 AWS.config.update({
     region: "us-east-1",
@@ -16,13 +17,13 @@ AWS.config.update({
 /*
 GLOBAL VARIABLE DECLARATIONS
 */
-exports.ddb = new AWS.DynamoDB.DocumentClient();;
-exports.STRIPE_API_KEY = "sk_test_5touzY5sFtfwT0lBuwbvD4l6";
-exports.STRIPE_PUBLIC_KEY = "pk_test_08b8DgWK3wRVmfdrhCtg3mVa";
-exports.STRIPE_CLIENT_ID = 'ca_BI52uK0mUKaVbtZnW1rfg7LKfvgGoWFY';
-exports.service_email = "charity_labs@yahoo.com";
-exports.email_pass = "420Blazeit6969";
-exports.base_url = "http://localhost:3000";
+exports.ddb = new AWS.DynamoDB.DocumentClient();
+exports.STRIPE_API_KEY = settings.STRIPE_API_KEY;
+exports.STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY;
+exports.STRIPE_CLIENT_ID = settings.STRIPE_CLIENT_ID;
+exports.service_email = settings.service_email;
+exports.email_pass = settings.email_pass;
+exports.base_url = settings.base_url;
 /*END DECLARATIONS*/
 
 var app = express();
