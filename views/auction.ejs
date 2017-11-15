@@ -69,7 +69,7 @@
           // Display the result in the element with id="demo"
           document.getElementById("timeleft").innerHTML = "Time left: " + days + "d " + hours + "h "
           + minutes + "m " + seconds + "s ";
-          if (minutes < 10){
+          if (minutes < 10 && hours == 0 && days == 0){
             document.getElementById("timeleft").style.color = "red";
           }
           // If the count down is finished, write some text 

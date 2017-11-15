@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var tools = require('./tools');
+
 var AWS = require('aws-sdk');
 var settings = require('./environment');
 /*Connect to DynamoDB*/
@@ -25,7 +25,7 @@ exports.service_email = settings.service_email;
 exports.email_pass = settings.email_pass;
 exports.base_url = settings.base_url;
 /*END DECLARATIONS*/
-
+var tools = require('./tools');
 var app = express();
 
 /*Route Imports*/

@@ -7,7 +7,9 @@ var host = modules.base_url;
 var schedule = require('node-schedule');
 
 var transporter = nodemailer.createTransport({
-  service: 'yahoo',
+  host: 'smtp-relay.gmail.com',
+  port: 587,
+  secure: false,
   auth: {
     user: service_email,
     pass: email_pass
@@ -16,7 +18,7 @@ var transporter = nodemailer.createTransport({
 
 function sendEmail(subject, text, email){
 	var mailOptions = {
-		from: service_email,
+		from: "Action Auctions <admin@actionauctions.org>",
 		to: email,
 		subject: subject,
 		text: text
