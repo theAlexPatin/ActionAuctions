@@ -56,7 +56,7 @@ router.get('/', function(req, res, next){
 								var amount = Math.floor(auction_data['current_amt'] / 2);
 								stripe.transfers.create({
 									amount:amount,
-									currency:'cad',
+									currency:'usd',
 									destination:acc.id
 								}, function(err, transfer){
 									var status = "";
