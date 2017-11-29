@@ -11,7 +11,7 @@ var stripe = require("stripe")(STRIPE_API_KEY);
 
 
 function formValidation(data){
-	if (data.amount == '' || data.first_name == '' || data.last_name == '' || data.email == '')
+	if (data.amount == '' || data.first_name == '' || data.email == '')
 		return false;
 	var amount = Number(data.amount.replace(/[\$,]/g, ''));
 	if (amount < 1 || amount > 100000){
@@ -25,9 +25,9 @@ function formValidation(data){
 	if (data.first_name == '' || data.first_name == null){
 		return false;
 	}
-	if (data.last_name == '' || data.last_name == null){
-		return false;
-	}
+	// if (data.last_name == '' || data.last_name == null){
+		// return false;
+	// }
 	return true;
 };
 
@@ -154,7 +154,7 @@ router.post('/', function(req, res, next) {
 						}
 					});
 		    	}
-		    	
+
 		    }
 		});
 	} else{

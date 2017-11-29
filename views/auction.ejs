@@ -1,102 +1,91 @@
 <%- include('partials/header') -%>
-      <div class="content">
+      <div class="content paginated-form">
+        <% if (has_ended){ %>
+            <h2>This auction has ended</h2><br>
+            <h2>A total of $<%=parseFloat(new String(Math.floor(current_amt)/100)).toFixed(2)%> was donated</h2>
+            <h2>The highest bid was $<%=parseFloat(new String(Math.floor(highest_bid)/100)).toFixed(2);%></h2>
+        <% }else{ %>
 
-        <div class="donate-form">
-          <h2><strong><%= location %>,</strong> <%= city %>, <%= state %></h2>
-          <h1><%= charity %></h1>
-          <span class="currency-input">
-            <input id="donate-amt"
-              class="input-box"
-              type="number"
-              min="1"
-              step="1"
-              placeholder="0">
+        <form action="/confirmation" method="post" id="payment-form">
 
-              <button id="mini-donate" class="mini-donate button -primary">
-                <i class="fa fa-arrow-right"></i>
-              </button>
-          </span>
+        <div class="page-1">
+          <div class="donate-form" id="payment-form">
+            <h2><strong><%= location %>,</strong> <%= city %>, <%= state %></h2>
+            <div class="title">
+              <div class="icon" style="background-image: url('<%= image %>')"></div>
+              <h1><%= charity %></h1>
+            </div>
+            <span class="currency-input">
+              <input id="donate-amt"
+                class="input-box"
+                type="number"
+                name="amount"
+                min="1"
+                step="1"
+                placeholder="0">
 
-          <div class="info-section">
-            <h2 class="title">How It Works</h2>
-            <p class="description">Donate what you can. The highest donor keeps half of everything raised.</p>
+                <a href="#pay" id="mini-donate" class="mini-donate button -primary">
+                  <i class="fa fa-arrow-right"></i>
+                </a>
+            </span>
+
+            <div class="info-section">
+              <h2 class="title">About <%= charity %></h2>
+              <p class="description"><%= description %> Auction ends in <strong id="time-left">--</strong>.</p>
+            </div>
+            <div class="info-section">
+              <h2 class="title">How It Works</h2>
+              <p class="description">Donate what you can. The highest donor keeps half of everything raised.</p>
+            </div>
+
           </div>
         </div>
 
-        <div class="payment-form">
-          <h2><%= charity %></h2>
-          <h1>Payment Info</h1>
-          <input type="text" class="input-box" placeholder="Name">
-          <input type="email" class="input-box" placeholder="Email">
-          <div id="card-element">
-            <!-- a Stripe Element will be inserted here. -->
+        <div class="page-2">
+          <div class="payment-form">
+            <h2><a href="#donate"><i class="fa fa-chevron-left"></i> Choose Amount</a></h2>
+            <h1>Payment Info</h1>
+            <fieldset class="user-info">
+              <input name="first_name" type="text" class="input-box" required placeholder="Name">
+              <input name="email" type="email" class="input-box" required placeholder="Email">
+            </fieldset>
+            <div id="card-element">
+              <!-- a Stripe Element will be inserted here. -->
+            </div>
+            <div id="card-errors" role="alert"></div>
+
+            <button type="submit" class="button -hollow">Complete Donation <img class="icon" src="/images/chevron.svg" alt=""></button>
           </div>
         </div>
+
+        </form>
+
 
       </div>
-      <footer class="footer-bar">
+      <footer class="footer-bar paginated-form">
+        <div class="page-1">
+          <div class="quick-donate">
+              <h2 class="title">Quick Donation</h2>
+              <ul class="options">
+                <li data-value="5" class="quick-item item">$5</li>
+                <li data-value="10" class="quick-item item">$10</li>
+                <li data-value="15" class="quick-item item">$15</li>
+                <li data-value="20" class="quick-item item">$20</li>
+                <li data-value="25" class="quick-item item">$25</li>
+              </ul>
+          </div>
 
-        <div class="quick-donate">
-            <h2 class="title">Quick Donation</h2>
-            <ul class="options">
-              <li data-value="5" class="quick-item item">$5</li>
-              <li data-value="10" class="quick-item item">$10</li>
-              <li data-value="15" class="quick-item item">$15</li>
-              <li data-value="20" class="quick-item item">$20</li>
-              <li data-value="25" class="quick-item item">$25</li>
-            </ul>
+          <div class="bottom-fields">
+            <button id="donate-btn" class="button -primary" disabled>Donate</button>
+          </div>
         </div>
-
-        <div class="bottom-fields">
-          <button type="submit" id="donate-btn" class="button -primary" disabled>Donate</button>
-        </div>
+        <% } %>
 
         <%- include('partials/footer-inner') -%>
       </footer>
+      <script src="https://js.stripe.com/v3/"></script>
+      <script src="/scripts/paginate.js"></script>
   <%- include('partials/end') -%>
-    <h2>Auction: <%= auction_id%></h2>
-    <div class="container">
-    <script src="https://js.stripe.com/v3/"></script>
-      <img src=<%= image%> height=200>
-      <h2><%= charity%></h2>
-      <a href='<%= link%>' target="_blank">View their site</a>
-      <h2>Location: <%= location%></h2>
-      <h3><%= city%>, <%= state%></h3>
-      <p><%= description%></p>
-
-      <% if (has_ended){ %>
-          <h2>This auction has ended</h2><br>
-          <h2>A total of $<%=parseFloat(new String(Math.floor(current_amt)/100)).toFixed(2)%> was donated</h2>
-          <h2>The highest bid was $<%=parseFloat(new String(Math.floor(highest_bid)/100)).toFixed(2);%></h2>
-      <% }else{ %>
-          <h2 id='timeleft'>Time left: </h2>
-          <form action="/confirmation" method="post" id="payment-form">
-              <div class="form-row">
-                <label for="card-element">Donation Amount</label><br>
-                <div class="money">
-                    <input id="amount" name="amount" placeholder="Enter at least $1.00" type="text" class="numberOnly"/>
-                </div><br><br>
-                <label for="card-element">Your information</label><br>
-                <input name="first_name" type="text" placeholder="First Name" />
-                <input name="last_name" type="text" placeholder="Last Name" />
-                <input name="email" type="text" placeholder="Email" /><br><br>
-
-                <label for="card-element">
-                  Credit or debit card
-                </label>
-                <div id="card-element">
-                  <!-- a Stripe Element will be inserted here. -->
-                </div><br>
-
-                <!-- Used to display form errors -->
-                <div id="card-errors" role="alert"></div>
-              </div>
-              <button id="submit-button">Submit Donation!</button>
-            </form>
-      <% } %>
-
-
-    </div>
     <script>
       if (!<%=has_ended%>){
         var countDownDate = new Date("<%= ending_time%>").getTime();
@@ -115,16 +104,16 @@
           var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
           // Display the result in the element with id="demo"
-          document.getElementById("timeleft").innerHTML = "Time left: " + days + "d " + hours + "h "
+          document.getElementById("time-left").innerHTML = days + "d " + hours + "h "
           + minutes + "m " + seconds + "s ";
           if (minutes < 10 && hours == 0 && days == 0){
-            document.getElementById("timeleft").style.color = "red";
+            document.getElementById("time-left").style.color = "red";
           }
           // If the count down is finished, write some text
           if (distance < 0) {
             clearInterval(x);
-            document.getElementById("timeleft").innerHTML = "AUCTION ENDED";
-            document.getElementById("payment-form").style.display = "none";
+            document.getElementById("time-left").innerHTML = "AUCTION ENDED";
+            // document.getElementById("payment-form").style.display = "none";
             //window.location = "/auction/<%= auction_id%>";
           }
         }, 1000);
@@ -143,11 +132,11 @@
         base: {
           color: '#32325d',
           lineHeight: '18px',
-          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontFamily: '"museo-sans-rounded","Helvetica Neue", Helvetica, sans-serif',
           fontSmoothing: 'antialiased',
           fontSize: '16px',
           '::placeholder': {
-            color: '#aab7c4'
+            color: '#aab7c4',
           }
         },
         invalid: {
