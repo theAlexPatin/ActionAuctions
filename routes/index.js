@@ -7,10 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res){
-	console.log('here');
-	console.log(req.body);
 	var auction_id = req.body.auction_id;
-	console.log(auction_id);
 	res.redirect('/auction/'+auction_id);
 });
 

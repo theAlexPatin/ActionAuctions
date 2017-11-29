@@ -1,4 +1,4 @@
-
+/*
 //Production deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_live_wu53vHIyn7apNNqRkhSvSdBq",
@@ -9,7 +9,7 @@ module.exports = {
 	base_url:"http://aaprod.us-east-1.elasticbeanstalk.com"
 }
 
-/*
+
 //Dev deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_test_5touzY5sFtfwT0lBuwbvD4l6",
@@ -21,7 +21,7 @@ module.exports = {
 }
 
 
-
+*/
 //Local Deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_test_5touzY5sFtfwT0lBuwbvD4l6",
@@ -31,4 +31,3 @@ module.exports = {
 	email_pass:"Fuck Poverty123!",
 	base_url:"http://localhost:3000"
 }
-*/

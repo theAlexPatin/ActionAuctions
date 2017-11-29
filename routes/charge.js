@@ -22,22 +22,22 @@ function formValidation(data){
     	console.log('here2');
 		return false;
     }
-	if (data.first_name == '' || data.first_name == null){
+	if (data.name == '' || data.name == null || data.name.split(" ").length < 2){
 		return false;
 	}
-	// if (data.last_name == '' || data.last_name == null){
-		// return false;
-	// }
 	return true;
 };
 
 router.post('/', function(req, res, next) {
+	console.log(req.body);
 	if (formValidation(req.body)){
 		var amount = Number(req.body.amount.replace(/[\$,]/g, ''));
 		amount = parseFloat(amount).toFixed(2);
 		var email = req.body.email;
-		var first_name = req.body.first_name;
-		var last_name = req.body.last_name;
+		var name = req.body.name.split(" ");
+		var first_name = name[0];
+		var last_name = name[name.length-1];
+
 		var stripe_token = req.body.stripeToken;
 		var auction_id = req.body.auction_id;
 		var card_id = req.body.card_id;
@@ -60,8 +60,9 @@ router.post('/', function(req, res, next) {
 		    	}
 		    	else{
 		    		data = data['Item'];
-			    	var end_time = dateFormat(data['ending_time'],'dddd, mmmm dS, yyyy "at" h:MM:ss TT');
-			    	end_time = end_time.replace('"ap"', 'at');
+		    		var et1 = dateFormat(data['ending_time'], 'dddd, mmmm dS, yyyy');
+		    		var et2 = dateFormat(data['ending_time'], 'h:MM:ss TT');
+			    	var end_time = et1 + ' at ' + et2;
 			    	var charity = data['charity'];
 
 
