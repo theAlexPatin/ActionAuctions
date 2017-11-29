@@ -1,0 +1,40 @@
+.currency-input
+  position: relative
+  display: block
+
+  input.input-box
+    padding-left: 36px
+    position: relative
+
+  .mini-donate
+
+    position: absolute
+    padding: 0
+
+    top: 50%
+    transform: translateY(-50%)
+    right: 20px
+    display: block
+    width: 40px
+    height: 40px
+    display: block
+    border-radius: 50%
+
+    display: none
+
+    >i
+      font-size: +ms(0)
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+
+  &:before
+    position: absolute
+    content: "$"
+    top: 50%
+    transform: translateY(-50%)
+    margin-top: 0px
+    font-size: +ms(2)
+    left: 20px
+    opacity: .7

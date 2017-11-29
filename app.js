@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
+var sass = require('node-sass-middleware');
 
 var AWS = require('aws-sdk');
 var settings = require('./environment');
@@ -29,6 +30,7 @@ exports.base_url = settings.base_url;
 var tools = require('./tools');
 var app = express();
 
+
 /*Route Imports*/
 var index = require('./routes/index');
 var auctions = require('./routes/auctions');
@@ -37,6 +39,9 @@ var winner = require('./routes/winner');
 var test = require('./routes/test'); //Route used for testing anything that might require express stuff
 var payout = require('./routes/payout');
 var admin = require('./routes/admin');
+var tos = require('./routes/tos');
+var about = require('./routes/about');
+
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
@@ -48,6 +53,15 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(sass({
+    /* Options */
+    src: path.join(__dirname, 'styles'),
+    dest: path.join(__dirname, 'public/css'),
+    debug: true,
+    indentedSyntax: true,
+    outputStyle: 'compressed',
+    prefix:  '/css'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*Route links*/
@@ -58,6 +72,8 @@ app.use('/winner/', winner);
 app.use('/testing/', test);
 app.use('/payout/', payout);
 app.use('/admin/', admin);
+app.use('/tos/', tos);
+app.use('/about/', about);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
