@@ -1,0 +1,46 @@
+.button,
+.button-block
+  background: white
+  border-radius: 2px
+  font-size: ms(0)
+  font-weight: 600
+  padding: .6em 2em
+  display: block
+  text-align: center
+  transition: opacity .1s
+
+  box-shadow: 0 0 20px rgba(0,0,0,.22)
+
+  &.-small
+    font-size: ms(-1)
+
+  &.-primary
+    background: white
+    color: $primary-color
+    border: none
+    font-size: +ms(0)
+
+
+  &.-error
+    background: $accent-color
+    color: white
+    border: none
+
+  &.-hollow
+    background: transparentize(white, .95)
+    color: white
+    border: solid 1px white
+    width: auto
+    display: inline-block
+    padding: .7em 1em
+    box-shadow: none
+
+    .icon
+      margin-left: 20px
+      margin-top: 2px
+      float: right
+
+  &:disabled
+    opacity: 0.7
+    cursor: default
+    transition: opacity .1s

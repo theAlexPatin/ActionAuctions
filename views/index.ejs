@@ -1,20 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Action Auctions</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <h2>Action Auctions</h2>
-    <div class="container">
-      <fieldset>
+<%- include('partials/header') -%>
+    <div class="content">
+      <div class="code-form">
         <form action="/" method="post">
-          <input name="auction_id" type="text" class="ghost-input" placeholder="Enter your Auction ID" required>
-          <input type="submit" class="ghost-button" value="Join">
+          <h1>Join an Auction</h1>
+          <input name="auction_id" type="text" class="input-box" placeholder="Auction Code" required>
+          <button type="submit" class="button -primary">Join</button>
         </form>
-      </fieldset>
+      </div>
     </div>
-  </body>
-</html>
+
+    <footer class="footer-bar">
+      <div class="host-cta">
+        <h2>Feeling inspired?</h2>
+        <a href="#" class="button -hollow">Host your own <img class="icon" src="images/chevron.svg" alt=""></a>
+      </div>
+
+      <%- include('partials/footer-inner') -%>
+    </footer>
+
+<%- include('partials/end') -%>

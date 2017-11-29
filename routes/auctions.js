@@ -17,9 +17,12 @@ router.get('/:auction_id', function(req, res, next) {
 	    else {
 	    	if (data['Item'] == null)
 	    		res.redirect('/');
-	    	context = data['Item'];
-	    	context['stripe_key'] = STRIPE_PUBLIC_KEY;
-	        res.render('auction', context);
+	    	else{
+	    		var context = data['Item'];
+		    	console.log(data['Item'])
+		    	context['stripe_key'] = STRIPE_PUBLIC_KEY;
+		      	res.render('auction', context);
+	    	}
 	    }
 	});
 });

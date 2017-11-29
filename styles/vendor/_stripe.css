@@ -1,0 +1,49 @@
+.StripeElement {
+  background-color: white;
+  padding: 10px 12px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+.money{
+    display:inline-block;
+    border:1px solid #ababab;
+  -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+}
+
+.money > div {
+    display:inline-block;
+    padding:8px 8px 8px 8px;
+    font-size:14px;
+    cursor:text;
+    color:#666;
+/*     pointer-events: none; */
+}
+
+.money > input{
+    width:200px;
+    border:0;
+    padding:8px 4px 8px 8px;
+    margin:0;
+    font-size:14px;
+    color:#666;
+    cursor:text;
+    text-align:left;
+    outline:none;
+}
+
+.money > input::-ms-clear{
+    display: none;
+}

@@ -1,0 +1,42 @@
+.payment-form
+  h1
+    margin-top: -15px
+
+  .input-box
+    margin-bottom: 0
+
+  .button
+    width: 100%
+    margin-top: 1em
+
+
+
+  .user-info
+    +grid-container
+    +grid-collapse
+    padding: 0
+    margin-bottom: 1em
+
+  .input-box
+    +grid-column(6)
+    padding: 5px 10px
+    font-size: +ms(0)
+    background: transparentize(white, .05)
+    color: #666
+    text-transform: none
+    font-weight: 500
+
+    &::placeholder
+      color: rgba(0,0,0,.25)
+
+
+    @media(max-width: 800px)
+      +grid-column(12)
+
+      &:not(:last-child)
+        margin-bottom: 1em
+
+  #card-errors
+    margin-top: .5em
+    font-size: +ms(-1)
+    color: transparentize(white, .3)
