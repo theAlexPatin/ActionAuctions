@@ -1,15 +1,59 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Action Auctions</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+<%- include('partials/header') -%>
+      <div class="content">
 
-  </head>
-  <body>
+        <div class="donate-form">
+          <h2><strong><%= location %>,</strong> <%= city %>, <%= state %></h2>
+          <h1><%= charity %></h1>
+          <span class="currency-input">
+            <input id="donate-amt"
+              class="input-box"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="0">
+
+              <button id="mini-donate" class="mini-donate button -primary">
+                <i class="fa fa-arrow-right"></i>
+              </button>
+          </span>
+
+          <div class="info-section">
+            <h2 class="title">How It Works</h2>
+            <p class="description">Donate what you can. The highest donor keeps half of everything raised.</p>
+          </div>
+        </div>
+
+        <div class="payment-form">
+          <h2><%= charity %></h2>
+          <h1>Payment Info</h1>
+          <input type="text" class="input-box" placeholder="Name">
+          <input type="email" class="input-box" placeholder="Email">
+          <div id="card-element">
+            <!-- a Stripe Element will be inserted here. -->
+          </div>
+        </div>
+
+      </div>
+      <footer class="footer-bar">
+
+        <div class="quick-donate">
+            <h2 class="title">Quick Donation</h2>
+            <ul class="options">
+              <li data-value="5" class="quick-item item">$5</li>
+              <li data-value="10" class="quick-item item">$10</li>
+              <li data-value="15" class="quick-item item">$15</li>
+              <li data-value="20" class="quick-item item">$20</li>
+              <li data-value="25" class="quick-item item">$25</li>
+            </ul>
+        </div>
+
+        <div class="bottom-fields">
+          <button type="submit" id="donate-btn" class="button -primary" disabled>Donate</button>
+        </div>
+
+        <%- include('partials/footer-inner') -%>
+      </footer>
+  <%- include('partials/end') -%>
     <h2>Auction: <%= auction_id%></h2>
     <div class="container">
     <script src="https://js.stripe.com/v3/"></script>
@@ -19,7 +63,7 @@
       <h2>Location: <%= location%></h2>
       <h3><%= city%>, <%= state%></h3>
       <p><%= description%></p>
-      
+
       <% if (has_ended){ %>
           <h2>This auction has ended</h2><br>
           <h2>A total of $<%=parseFloat(new String(Math.floor(current_amt)/100)).toFixed(2)%> was donated</h2>
@@ -51,7 +95,7 @@
             </form>
       <% } %>
 
-      
+
     </div>
     <script>
       if (!<%=has_ended%>){
@@ -76,7 +120,7 @@
           if (minutes < 10 && hours == 0 && days == 0){
             document.getElementById("timeleft").style.color = "red";
           }
-          // If the count down is finished, write some text 
+          // If the count down is finished, write some text
           if (distance < 0) {
             clearInterval(x);
             document.getElementById("timeleft").innerHTML = "AUCTION ENDED";
@@ -142,10 +186,10 @@
             stripeTokenHandler(result.token);
           }
         });
-      });  
+      });
 
       function stripeTokenHandler(token) {
-        
+
         // Insert the token ID into the form so it gets submitted to the server
         var form = document.getElementById('payment-form');
         var hiddenInput = document.createElement('input');

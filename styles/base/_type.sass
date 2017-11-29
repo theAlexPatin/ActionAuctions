@@ -1,0 +1,106 @@
+/*! Typebase.less v0.1.0 | MIT License */
+
+// Typesetting variables. Edit these!
+$baseFontSize: 18
+$baseLineHeight: 1.5
+$leading: $baseLineHeight * 1rem
+
+$header-font: "museo-sans-rounded", "Museo Sans Rounded", "Open Sans","Helvetica", "Helvetica Neue",Corbel,Arial,sans-serif
+
+$body-font: $header-font
+
+// Rate of growth for headings
+// I actually like this to be slightly smaller then the leading. Makes for tight headings.
+$scale: 1.333
+
+$modularscale: ( base: 1em, ratio: $scale)
+
+/* Setup */
+html
+  /* Change default typefaces here */
+  font-family: $header-font
+  font-size: $baseFontSize * 1px
+
+  color: $text-color
+
+  // Make everything look a little nicer in webkit
+  -webkit-font-smoothing: antialiased
+
+/* Copy & Lists */
+p
+  line-height: $leading
+  margin-top: $leading
+  margin-bottom: 0
+
+ul, ol
+  margin-top: $leading
+  margin-bottom: $leading
+  li
+    line-height: $leading
+  ul, ol
+    margin-top: 0
+    margin-bottom: 0
+
+blockquote
+  line-height: $leading
+  margin-top: $leading
+  margin-bottom: $leading
+
+/* Headings */
+h1, h2, h3, h4, h5, h6
+  /* Change heading typefaces here */
+  font-family: $body-font
+  margin-top: $leading
+  margin-bottom: 0
+  line-height: $leading
+
+h1
+  font-size: ms(2)
+  line-height: 2 * $leading
+  margin-top: 2 * $leading
+  border-bottom: solid 2px white
+  display: inline-block
+  margin-bottom: $leading
+  font-weight: 500
+
+h2
+  font-size: ms(-1) * 1.1
+  line-height: 1.5 * $leading
+  margin-top: 2 * $leading
+  font-weight: 500
+  color: $text-color-light
+
+h3
+  font-size: ms(1)
+h4
+  font-size: ms(0)
+h5
+  font-size: ms(0)
+h6
+  font-size: ms(0)
+
+/* Tables */
+table
+  margin-top: $leading
+  border-spacing: 0px
+  border-collapse: collapse
+
+  td, th
+    padding: 0
+    line-height: $baseLineHeight * $baseFontSize - 0px
+
+/* Code blocks */
+code
+  // Forces text to constrain to the line-height. Not ideal, but works.
+  vertical-align: bottom
+
+/* Leading paragraph text */
+._lead
+  font-size: ms(1)
+
+button,
+input,
+optgroup,
+select,
+textarea
+  font-family: $body-font
