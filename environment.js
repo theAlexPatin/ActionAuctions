@@ -1,4 +1,4 @@
-
+/*
 //Production deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_live_wu53vHIyn7apNNqRkhSvSdBq",
@@ -6,9 +6,9 @@ module.exports = {
 	STRIPE_CLIENT_ID:'ca_BI52IiUZ7igpRBmULsUNHmWlGOvrX7MN',
 	service_email:"admin@actionauctions.org",
 	email_pass:"Fuck Poverty123!",
-	base_url:"http://aaprod.us-east-1.elasticbeanstalk.com"
+	base_url:"https://actionauctions.org"
 }
-/*
+*/
 //Local Deployment
 module.exports = {
 	STRIPE_API_KEY:"sk_test_5touzY5sFtfwT0lBuwbvD4l6",
