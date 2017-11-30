@@ -53,7 +53,7 @@ router.get('/', function(req, res, next){
 								console.log('error updating auction data')
 							} else{
 								auction_data = data['Item'];
-								var amount = Math.floor(auction_data['current_amt'] / 2);
+								var amount = Math.floor((auction_data['current_amt'] / 2)*0.96); //0.96 accounts for fees
 								stripe.transfers.create({
 									amount:amount,
 									currency:'usd',
@@ -62,7 +62,7 @@ router.get('/', function(req, res, next){
 									var status = "";
 									if(err){
 										status = "reimbursement_failed";
-										res.render('error');
+										res.render('reimbursed');
 										console.log('error issuing transfer');
 										console.log(err);
 									} else{
