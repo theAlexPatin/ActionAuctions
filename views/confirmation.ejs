@@ -2,7 +2,7 @@
     <div class="content">
       <h1>Thank you</h1>
         <p>We've received your donation of <strong><%= amount%></strong> to <%= charity%>.</p>
-        <p>You'll be notified by email if you won when the auction closes at <strong><%= end_time%></strong>.</p>
+        <p>You'll be notified by email if you won when the auction closes on <strong><%= end_time%></strong>.</p>
         <br>
         <a href="<%= auction_link%>" class="button -hollow">Back to Auction</a>
     </div>
@@ -10,7 +10,7 @@
       <footer class="footer-bar">
         <div class="host-cta">
           <h2>Feeling inspired?</h2>
-          <a href="/admin" class="button -hollow">Host your own <img class="icon" src="images/chevron.svg" alt=""></a>
+          <a href="/apply" class="button -hollow">Host your own <img class="icon" src="images/chevron.svg" alt=""></a>
         </div>
         <%- include('partials/footer-inner') -%>
       </footer>

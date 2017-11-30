@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<%- include('partials/header') -%>
+    <h1>Apply to Host!</h1>
+    <div class="container">
+        <h3>Auction Info</h3><br>
+        <form class="payment-form" action="/apply/" method="POST">
+          <input class="input-box" type="text" name="name" required placeholder="Your Name"><br><br>
+          <input class="input-box" type="email" name="email" required placeholder="Your Email"><br><br>
+          <input class="input-box" type="text" name="auction_id" required placeholder="Desired Auction Code"><br><br>
+          <input class="input-box" type="text" name="charity" required placeholder="Charity Name"><br><br>
+          <input class="input-box" type="text" name="link" required placeholder="Charity Website"><br><br>
+          <textarea class="input-box" name="description" placeholder="Description of Charity"></textarea><br><br><br><br>
+          <input class="input-box" type="text" name="city" required placeholder="Auction City"><br><br>
+          <input class="input-box" type="text" name="state" required placeholder="Auction State"><br><br>
+          <input class="input-box" type="text" name="location" required placeholder="Auction Venue"><br><br><br>
+          <label>Auction Start Time</label><br>
+          <input class="input-box" type="datetime-local" name="starting_time" required placeholder="Start Time"><br><br><br>
+          <label>Auction End Time</label><br>
+          <input class="input-box" type="datetime-local" name="ending_time" required placeholder="End Time"><br><br><br>
+          <textarea class="input-box" name="optional" placeholder="Anything you'd like us to know?"></textarea><br><br><br>
+          <button button class="button -hollow">Submit!</button>
+        </form>
+    </div>
+
+  <footer class="footer-bar">
+
+      <%- include('partials/footer-inner') -%>
+    </footer>
+<%- include('partials/end') -%>

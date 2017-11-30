@@ -41,6 +41,7 @@ var payout = require('./routes/payout');
 var admin = require('./routes/admin');
 var tos = require('./routes/tos');
 var about = require('./routes/about');
+var apply = require('./routes/apply');
 
 
 // view engine setup
@@ -74,6 +75,7 @@ app.use('/payout/', payout);
 app.use('/admin/', admin);
 app.use('/tos/', tos);
 app.use('/about/', about);
+app.use('/apply/', apply);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

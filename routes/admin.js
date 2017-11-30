@@ -5,7 +5,6 @@ var ddb = modules.ddb;
 var tools = require('../tools');
 
 router.get('/', function(req, res, next) {
-	console.log('here');
 	res.render('admin');
 });
 

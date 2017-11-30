@@ -56,7 +56,7 @@ router.post('/', function(req, res, next) {
 		    	var now = new Date();
 		    	var end_time = new Date(auction['ending_time']);
 		    	if (now > end_time){
-		    		render('out_of_time');
+		    		res.render('out_of_time');
 		    	}
 		    	else{
 		    		data = data['Item'];
