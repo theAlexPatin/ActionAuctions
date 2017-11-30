@@ -8,7 +8,7 @@
                   <div class="icon" style="background-image: url('<%= image %>')"></div>
                   <h1>Auction <%= auction_id%> has ended</h2><br>
                 </div>
-                <h3>A total of $<%=parseFloat(new String(Math.floor(current_amt)/100)).toFixed(2)%> was donated to <%= charity%>!</h2>
+                <h3>A total of $<%=parseFloat(new String(Math.floor(current_amt)/100)).toFixed(2)%> was raised for <%= charity%>!</h2>
                 <h3>The winning bid was $<%=parseFloat(new String(Math.floor(highest_bid)/100)).toFixed(2);%></h2><br>
                 <p>Missed out? <strong><a style="color:#cce6ff" href="/apply">Start your own Auction!</a></strong></p>
             </div>
