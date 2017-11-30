@@ -21,7 +21,7 @@ router.post('/', function(req, res, next){
 		params={
 			TableName:"Auctions",
 			Item:{
-				"auction_id":data['auction_id'],
+				"auction_id":data['auction_id'].toLowerCase(),
 				"charity":data['charity'].replace('/',''),
 				"city":data['city'].replace('/',''),
 				"state":data['state'],
