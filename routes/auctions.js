@@ -5,10 +5,11 @@ var STRIPE_PUBLIC_KEY = modules.STRIPE_PUBLIC_KEY;
 var ddb = modules.ddb;
 
 router.get('/:auction_id', function(req, res, next) {
+	var auction_id = req.params.auction_id.toLowerCase();
 	var params = {
 		TableName: "Auctions",
 		Key:{
-			"auction_id":req.params.auction_id
+			"auction_id":auction_id
 		}
 	};
 	ddb.get(params, function(err, data){

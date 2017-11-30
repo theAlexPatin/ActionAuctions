@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Action Auctions</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Login</h3>
+      <form id='login' action="/admin/" method="POST">
+        <input type="text" name="email" placeholder="Email"><br><br>
+        <input id="password" type="password" name="password" placeholder="Password"><br><br>
+        <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Login</button>
+      </form>
+    </div>
+  </body>
+  <script src="/scripts/hash.js"></script>
+  <script>
+  var form = document.getElementById('login');
+    form.addEventListener('submit', function(e){
+       var hash = b64_md5(document.getElementById('password'));    
+       var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'hash');
+        hiddenInput.setAttribute('value', hash);
+        form.appendChild(hiddenInput);
+       document.getElementById("password").value = "";
+       form.submit();
+    })
+  </script>
+</html>
