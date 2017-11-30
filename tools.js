@@ -135,7 +135,7 @@ function notify_winner(auction_id){
 						        ":r":false,
 						        ":h":true
 						    },
-				  			ReturnValues:"UPDATED_NEW"
+				  			ReturnValues:"ALL_NEW"
 				    	}
 					    ddb.update(params, function(err, data) {
 						    if (err) {

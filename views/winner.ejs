@@ -1,18 +1,30 @@
 <%- include('partials/header') -%>
-    <h1>Congratulations, you've won!</h1>
-    <div class="container">
-      <h3>But . . .</h3>
-      <h3><%= charity%> could still <strong>really</strong> use that money</h3>
-      <h3>So you can still donate your earnings!</h3><br>
-      <form id='donate' action="/winner/<%= bidder_id%>" method="POST">
-        <button button class="button -primary">Donate!</button>
-        <input type="hidden" name="donate" value="true">
-        <input type="hidden" name="auction_id" value="<%= auction_id%>">
-      </form>
-      <h3>. . . or have them transferred to your account</h3><br>
-      <a href='<%=redirect_uri%>' target='_top'>
-          <img src='../images/blue-on-light.png'/>
-      </a>
+    <div class="content paginated-form">
+      <h1>Congratulations, you've won!</h1>
+      <div class="page-1">
+        <h3>But . . .</h3>
+        <h3><%= charity%> could still <strong>really</strong> use that money</h3>
+        <h3>So you can still donate your earnings!</h3><br>
+        <form id='donate' action="/winner/<%= bidder_id%>" method="POST">
+          <button class="button -primary">Donate!</button>
+          <input type="hidden" name="donate" value="true">
+          <input type="hidden" name="auction_id" value="<%= auction_id%>">
+        </form>
+        <h3>. . . or have them transferred to your account</h3><br>
+        <button id="transfer-btn" class="button -hollow">Transfer</button>
+      </div>
+      <div class="page-2">
+        <a href="#donate"><i class="fa fa-chevron-left"></i> Donate Instead</a>
+        <div style="padding:30px 0px 30px 30px">
+          <h4>Winnings: <strong>$<%= amount_won%></strong></h4>
+          <h4>Operating Fee: <strong>- $<%= fee%></strong></h4>
+          <hr>
+          <h3><strong>Subtotal: $<%= subtotal%></strong></h3><br>
+          <a href='<%=redirect_uri%>' target='_top'>
+          <img width=200 height=40 src='../images/light-on-light.png'/>
+          </a>
+        </div>
+      </div>
     </div>
     <footer class="footer-bar">
       <div class="host-cta">
@@ -22,5 +34,5 @@
 
       <%- include('partials/footer-inner') -%>
     </footer>
-
+    <script src="/scripts/paginate.js"></script>
 <%- include('partials/end') -%>

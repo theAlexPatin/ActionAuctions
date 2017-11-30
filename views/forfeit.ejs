@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Action Auctions</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <h2>Thanks, bro!</h2>
-  </body>
-</html>
+<%- include('partials/header') -%>
+    <h1>Thanks, <%= name%>!</h1>
+    <h3><%= charity%> greatly appreciates your generosity!</h3>
+    <h3>The world is lucky to have great people like you!</h3>
+	<footer class="footer-bar">
+      <div class="host-cta">
+        <h2>Feeling inspired?</h2>
+        <a href="/apply" class="button -hollow">Host your own <img class="icon" src="images/chevron.svg" alt=""></a>
+      </div>
+
+      <%- include('partials/footer-inner') -%>
+    </footer>
+<%- include('partials/end') -%>

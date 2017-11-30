@@ -7,7 +7,7 @@ $(document).ready(function () {
   });
 
   function updatePages(hash) {
-    if(hash === 'pay') {
+    if(hash === 'pay' || hash === 'transfer') {
       $('.page-1').hide()
       $('.page-2').show()
     } else {
@@ -19,6 +19,11 @@ $(document).ready(function () {
   $('#donate-btn').click(e => {
     e.preventDefault()
     window.location.hash = '#pay'
+  })
+
+  $('#transfer-btn').click(e => {
+    e.preventDefault()
+    window.location.hash = '#transfer'
   })
 
 })

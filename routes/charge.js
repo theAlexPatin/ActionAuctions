@@ -129,7 +129,7 @@ router.post('/', function(req, res, next) {
 					    		},
 					    		UpdateExpression: UpdateExpression,
 					    		ExpressionAttributeValues: ExpressionAttributeValues,
-					  			ReturnValues:"UPDATED_NEW"
+					  			ReturnValues:"ALL_NEW"
 					    	}
 					    	ddb.update(params, function(err, data) {
 							    if (err) {
