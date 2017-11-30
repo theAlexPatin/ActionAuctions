@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Action Auctions</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <h2>Congratulations, you've won!</h2>
+<%- include('partials/header') -%>
+    <h1>Congratulations, you've won!</h1>
     <div class="container">
-      <h3>But...</h3><br>
-      <h3>You can still donate your earnings!</h3>
+      <h3>But . . .</h3>
+      <h3><%= charity%> could still <strong>really</strong> use that money</h3>
+      <h3>So you can still donate your earnings!</h3><br>
       <form id='donate' action="/winner/<%= bidder_id%>" method="POST">
-        <button button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Donate!</button>
+        <button button class="button -primary">Donate!</button>
         <input type="hidden" name="donate" value="true">
         <input type="hidden" name="auction_id" value="<%= auction_id%>">
       </form>
-      <h3>...or have them transferred to your account</h3>
+      <h3>. . . or have them transferred to your account</h3><br>
       <a href='<%=redirect_uri%>' target='_top'>
           <img src='../images/blue-on-light.png'/>
       </a>
     </div>
-  </body>
-</html>
+    <footer class="footer-bar">
+      <div class="host-cta">
+        <h2>Feeling inspired?</h2>
+        <a href="/apply" class="button -hollow">Host your own <img class="icon" src="images/chevron.svg" alt=""></a>
+      </div>
+
+      <%- include('partials/footer-inner') -%>
+    </footer>
+
+<%- include('partials/end') -%>

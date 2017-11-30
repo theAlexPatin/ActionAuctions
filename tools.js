@@ -96,7 +96,7 @@ function notify_winner(auction_id){
         	console.log("Error fetching auction from database");
 	    else{
 	    	auction_data = data['Item'];
-	    	if ('winner_url' in auction_data){
+	    	if ('highest_bidder' in auction_data){
 	    		console.log('got auction data');
 		    	params = {
 		    		TableName: "Bids",
@@ -142,7 +142,7 @@ function notify_winner(auction_id){
 						        console.error("Unable to update item.", JSON.stringify(err, null, 2));
 						    } else {
 						    	console.log("updated auction data");
-				    			var subject=`Congrats! You've won auction ${auction_id}`;
+				    			var subject=`Congrats! You've won Auction "${auction_id}"`;
 								var text = `Congratulations, ${first_name}!\n\nYou made the largest donation. All donations totaled to $${total}, so you've won $${amount}.\n\nBut wait!\n\nYou can still choose to donate your earnings and feel great about yourself!\n\nFollow the link below to redeem your earnings or donate them to ${charity}\n\n${link}\n\nSincreley,\nCharity Labs Team`;
 								sendEmail(subject, text, email);
 						    }
