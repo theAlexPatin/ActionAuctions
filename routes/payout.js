@@ -53,9 +53,11 @@ router.get('/', function(req, res, next){
 								console.log('error updating auction data')
 							} else{
 								auction_data = data['Item'];
-								var amount = Math.floor((auction_data['current_amt'] / 2)*0.96); //0.96 accounts for fees
+								var amount_won = Math.floor(auction_data['current_amt'] / 2)/100;
+								var fee = amount_won * 0.04;
+								var amount = amount_won - fee;
 								stripe.transfers.create({
-									amount:amount,
+									amount:amount*100,
 									currency:'usd',
 									destination:acc.id
 								}, function(err, transfer){
@@ -70,7 +72,7 @@ router.get('/', function(req, res, next){
 										res.render('reimbursed');
 										tools.payout_confirmation(
 											bidder_data['first_name'], 
-											parseFloat(new String(Math.floor(amount/100))).toFixed(2), 
+											parseFloat(new String(amount)).toFixed(2), 
 											bidder_data['email']
 										);
 									}

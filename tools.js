@@ -35,7 +35,7 @@ function sendEmail(subject, text, email){
 module.exports = {
 	payout_confirmation: function(first_name, reimbursed_amt, email){
 		var subject=`Payment from Charity Labs`;
-		var text=`Hey, ${first_name}!\n\nYour payment of $${reimbursed_amt} is currently being processed. Please allow 2-5 business days for the transfer to occur!\n\nSincerely,\nCharity Labs Team`;
+		var text=`Hey, ${first_name}!\n\nYour payout of $${reimbursed_amt} is currently being processed. Please allow 2-5 business days for the transfer to occur!\n\nSincerely,\nCharity Labs Team`;
 		sendEmail(subject, text, email);
 	},
 

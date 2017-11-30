@@ -75,7 +75,6 @@ router.post('/:winner_id', function(req, res, next){
 		if (err){
 			console.log('unable to update auction item');
 		} else{
-			console.log(data);
 			if(donate){
 				var auction = data['Attributes'];
 				params = {TableName:"Bids", Key:{"bidder_id":winner_id}}
