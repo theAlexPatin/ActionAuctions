@@ -79,13 +79,19 @@ module.exports = {
 function modify_date(old_date, timezone){
 	if(timezone == undefined)
 		timezone = "America/New_York";
-	var m_auction = moment.tz(new Date(), timezone).format('Z')
+	/*var m_auction = moment.tz(new Date(), timezone).format('Z')
 	var off1 = parseInt(m_auction.split(":")[0])*60 + parseInt(m_auction.split(":")[1]);
 	var m_local = moment().format('Z')
 	var off2 = parseInt(m_local.split(":")[0])*60 + parseInt(m_local.split(":")[1]);
 	var offset = off1 - off2;
 	var date = new Date(old_date);
-	return new Date(moment(date).utcOffset(offset).toISOString());
+	return new Date(moment(date).utcOffset(offset).toISOString());*/
+	var m_auction = moment.tz(old_date, timezone);
+	console.log(moment.tz.guess());
+	var tz =  m_auction.clone().tz(moment.tz(moment.tz.guess()).zoneAbbr());
+	var date = new Date(tz.toISOString());
+	console.log(date);
+	return date;
 }
 
 function start_job(auction_id, ending_time, timezone){
