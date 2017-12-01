@@ -111,16 +111,16 @@ router.post('/', function(req, res, next) {
 					    	var current_amount = data['current_amt'] + Math.floor(amount*100);
 					   		//If this bid is greater than previous highest, update that
 					    	if(Math.floor(amount*100) > data['highest_bid']){
-					    		var UpdateExpression = "set highest_bid=:h, highest_bidder=:b, current_amt=:c";
+					    		var UpdateExpression = "set highest_bid=:h, highest_bidder=:b, current_amt= current_amt + :c";
 							    var ExpressionAttributeValues = {
-							        ":c":current_amount,
+							        ":c":Math.floor(amount*100),
 							        ":h":Math.floor(amount*100),
 							        ":b":bidder_id
 							    };
 					    	} else{
-					    		var UpdateExpression = "set current_amt=:c";
+					    		var UpdateExpression = "set current_amt= current_amt + :c";
 							    var ExpressionAttributeValues = {
-							        ":c":current_amount
+							        ":c":Math.floor(amount*100)
 							    };
 					    	}
 					    	var params = {
