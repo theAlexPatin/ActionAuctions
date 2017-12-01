@@ -157,7 +157,7 @@ function notify_winner(auction_id){
 						    } else {
 						    	console.log("updated auction data");
 				    			var subject=`Congrats! You've won Auction "${auction_id}"`;
-								var text = `Congratulations, ${first_name}!\n\nYou made the largest donation. All donations totaled to $${total}, so you've won $${amount}.\n\nBut wait!\n\nYou can still choose to donate your earnings and feel great about yourself!\n\nFollow the link below to redeem your earnings or donate them to ${charity}\n\n${link}\n\nSincreley,\nCharity Labs Team`;
+								var text = `Congratulations, ${first_name}!\n\nYou made the largest donation. All donations totaled to $${total}, so you've won $${amount}.\n\nBut wait!\n\nYou can still choose to donate your earnings and feel great about yourself!\n\nFollow the link below to redeem your earnings or donate them to ${charity}\n\n${link}\n\nSincerely,\nCharity Labs Team`;
 								sendEmail(subject, text, email);
 						    }
 						});
