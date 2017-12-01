@@ -72,9 +72,16 @@ module.exports = {
 };
 
 function start_job(auction_id, ending_time){
-	console.log(moment().format('Z'));
+	var m_auction = moment.tz(new Date(), "America/New_York").format('Z')
+	var off1 = parseInt(m_auction.split(":")[0])*60 + parseInt(m_auction.split(":")[1]);
+	var m_local = moment().format('Z')
+	var off2 = parseInt(m_local.split(":")[0])*60 + parseInt(m_local.split(":")[1]);
+	var offset = off1 - off2;
 	var date = new Date(ending_time);
 	console.log(date);
+	date = moment(date).utcOffset(offset);
+	console.log(date);
+
 	var job = schedule.scheduleJob(date,function(argument) {
 		var now = new Date();
 		if (now >= date){
