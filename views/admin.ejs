@@ -17,8 +17,10 @@
         <input type="text" name="state" placeholder="State"><br><br>
         <input type="text" name="location" placeholder="Event Location"><br><br>
         <textarea name="description" cols="60" rows="5" placeholder="Description of Charity"></textarea><br><br>
-        <input type="text" style="width:300px" name="starting_time" placeholder="Start Time (format: 2018-01-08T12:00:00)"><br><br>
-        <input type="text" style="width:300px" name="ending_time" placeholder="End Time (format: 2018-01-08T12:00:00)"><br><br>
+        <label>Auction Start Time</label><br>
+          <input type="datetime-local" name="starting_time" required placeholder="Start Time"><br><br><br>
+          <label>Auction End Time</label><br>
+          <input type="datetime-local" name="ending_time" required placeholder="End Time"><br><br><br>
         <label>Time Zone</label><br><br>
         <select name="timezone" placeholder="Time Zone">
           <option value="America/New_York">Eastern</option>

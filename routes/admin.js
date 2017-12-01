@@ -18,6 +18,7 @@ router.post('/', function(req, res, next){
 			res.redirect('/admin');
 		}
 	}else{
+		console.log(data['ending_time']);
 		params={
 			TableName:"Auctions",
 			Item:{
