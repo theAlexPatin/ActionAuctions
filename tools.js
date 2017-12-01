@@ -5,6 +5,7 @@ var email_pass = modules.email_pass;
 var nodemailer = require('nodemailer');
 var host = modules.base_url;
 var schedule = require('node-schedule');
+var moment = require('moment-timezone');
 
 var transporter = nodemailer.createTransport({
   host: 'smtp-relay.gmail.com',
@@ -71,10 +72,10 @@ module.exports = {
 };
 
 function start_job(auction_id, ending_time){
+	console.log(moment().format('Z'));
 	var date = new Date(ending_time);
 	console.log(date);
 	var job = schedule.scheduleJob(date,function(argument) {
-		
 		var now = new Date();
 		if (now >= date){
 			console.log("notifying winner for "+auction_id);
