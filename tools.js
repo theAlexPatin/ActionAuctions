@@ -77,13 +77,13 @@ module.exports = {
 };
 
 function modify_date(old_date, timezone){
-	console.log("AuctionTime" + old_date);
+	console.log("Auction Time: " + old_date);
 	if(timezone == undefined)
 		timezone = "America/New_York";
 	var m_auction = moment.tz(old_date, timezone);
 	var tz =  m_auction.clone().tz(moment.tz(moment.tz.guess()).zoneAbbr());
 	var date = new Date(tz.toISOString());
-	console.log("Server Time" + date);
+	console.log("Server Time: " + date);
 	return date;
 }
 
