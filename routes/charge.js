@@ -29,7 +29,6 @@ function formValidation(data){
 };
 
 router.post('/', function(req, res, next) {
-	console.log(req.body);
 	if (formValidation(req.body)){
 		var amount = Number(req.body.amount.replace(/[\$,]/g, ''));
 		amount = parseFloat(amount).toFixed(2);
@@ -53,13 +52,15 @@ router.post('/', function(req, res, next) {
 			if (err)
 	        	res.redirect('/');
 		    else {
+		    	data = data['Item'];
 		    	var now = new Date();
-		    	var end_time = new Date(auction['ending_time']);
+		    	var end_time = tools.modify_date(data['ending_time'], data['timezone']);
+		    	console.log(now);
+		    	console.log(end_time);
 		    	if (now > end_time){
 		    		res.render('out_of_time');
 		    	}
 		    	else{
-		    		data = data['Item'];
 		    		var et1 = dateFormat(data['ending_time'], 'dddd, mmmm dS, yyyy');
 		    		var et2 = dateFormat(data['ending_time'], 'h:MM:ss TT');
 			    	var end_time = et1 + ' at ' + et2;

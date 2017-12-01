@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Action Auctions</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-  </head>
-  <body>
-    <h2>Out of time!</h2>
-    <div class="container">
+<%- include('partials/header') -%>
+    
+    <div class="content">
+      <h1>Out of time!</h1>
       <h3>Sorry, bud. You didn't make it in before the end of the auction!</h3><br>
       <h3>Don't worry, you weren't charged!</h3>
     </div>
-  </body>
-</html>
+    <footer class="footer-bar">
+      <div class="host-cta">
+        <h2>Feeling inspired?</h2>
+        <a href="/apply" class="button -hollow">Host your own <img class="icon" src="images/chevron.svg" alt=""></a>
+      </div>
+
+      <%- include('partials/footer-inner') -%>
+    </footer>
+
+<%- include('partials/end') -%>

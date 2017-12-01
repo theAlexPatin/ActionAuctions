@@ -30,6 +30,7 @@ router.post('/', function(req, res, next){
 				"ending_time":data['ending_time'],
 				"image":data['image'],
 				"link":data['link'],
+				"timezone":data['timezone'],
 				"highest_bid":0,
 				"has_ended":false,
 				"current_amt":0,
@@ -42,7 +43,7 @@ router.post('/', function(req, res, next){
 				console.log(err);
 			}
 			else{
-				tools.start_job(data['auction_id'], data['ending_time']);
+				tools.start_job(data['auction_id'], data['ending_time'], data['timezone']);
 				res.render('admin');
 			}
 		})

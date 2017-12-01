@@ -47,8 +47,8 @@ module.exports = {
 		sendEmail(subject, text, email);
 	},
 
-	start_job: function(auction_id, ending_time){
-		start_job(auction_id, ending_time);
+	start_job: function(auction_id, ending_time, timezone){
+		start_job(auction_id, ending_time, timezone);
 	},
 
 	restart_jobs: function(d){
@@ -59,8 +59,9 @@ module.exports = {
 			else{
 				for (var i = 0; i < data['Items'].length; i++){
 					auction = data['Items'][i];
-					if (!auction['has_ended'])
-						start_job(auction['auction_id'], auction['ending_time']);
+					if (!auction['has_ended']){
+						start_job(auction['auction_id'], auction['ending_time'], auction['timezone']);
+					}
 				}
 			}
 		});
@@ -68,20 +69,28 @@ module.exports = {
 
 	notify_winner: function(auction_id){
 		notify_winner(auction_id);
+	}, 
+
+	modify_date: function(date, timezone){
+		return modify_date(date, timezone);
 	}
 };
 
-function start_job(auction_id, ending_time){
-	var m_auction = moment.tz(new Date(), "America/New_York").format('Z')
+function modify_date(old_date, timezone){
+	if(timezone == undefined)
+		timezone = "America/New_York";
+	var m_auction = moment.tz(new Date(), timezone).format('Z')
 	var off1 = parseInt(m_auction.split(":")[0])*60 + parseInt(m_auction.split(":")[1]);
 	var m_local = moment().format('Z')
 	var off2 = parseInt(m_local.split(":")[0])*60 + parseInt(m_local.split(":")[1]);
 	var offset = off1 - off2;
-	var date = new Date(ending_time);
-	console.log(date);
-	date = moment(date).utcOffset(offset);
-	console.log(date);
+	var date = new Date(old_date);
+	return new Date(moment(date).utcOffset(offset).toISOString());
+}
 
+function start_job(auction_id, ending_time, timezone){
+	var date = modify_date(ending_time, timezone);
+	console.log('started job for '+auction_id+ " at "+date);
 	var job = schedule.scheduleJob(date,function(argument) {
 		var now = new Date();
 		if (now >= date){
