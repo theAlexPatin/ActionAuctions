@@ -4,16 +4,13 @@
 
 ## Requirements
 - Node.js
-- npm
 - Elastic Beanstalk CLI
-
-## Cloning
-
-In the desired directory run `git clone https://github.com/theAlexPatin/CharityLabs.git`
 
 ## Setup
 
 ```
+$ git clone https://github.com/theAlexPatin/CharityLabs.git
+$ cd CharityLabs
 $ npm install
 ```
 
