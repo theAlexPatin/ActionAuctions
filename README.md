@@ -1,4 +1,4 @@
-# CharityLabs (unnamed) Web App
+# Action Auctions
 
 #### A web app built with Node.js on AWS
 
